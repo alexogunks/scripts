@@ -1,0 +1,97 @@
+{
+  "strategy": "rotation-test",
+  "payload": {
+    "deal_id": 7,
+    "money": 100
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T21:01:05.295Z"
+},
+{
+  "strategy": "rotation-test",
+  "payload": {
+    "deal_id": 7,
+    "money": "0x64"
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T21:01:05.699Z"
+},
+{
+  "strategy": "rotation-test",
+  "payload": {
+    "deal_id": 7,
+    "money": "1e2"
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T21:01:06.070Z"
+},
+{
+  "strategy": "rotation-test",
+  "payload": {
+    "deal_id": 7,
+    "money": "100abc"
+  },
+  "response": {
+    "error": "质押金额超限"
+  },
+  "translated": "Unknown error: 质押金额超限",
+  "timestamp": "2025-07-25T21:01:07.064Z"
+},
+{
+  "strategy": "rotation-test",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T21:01:07.461Z"
+},
+{
+  "strategy": "fuzzer-variants",
+  "payload": {
+    "deal_id": 7,
+    "money": 100,
+    "Money": -100,
+    "money_": -100,
+    "money‌": -100,
+    "money1": -100
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T21:01:07.827Z"
+},
+{
+  "strategy": "query-vs-body",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T21:01:08.195Z"
+},
+{
+  "strategy": "duplicate-keys-bypass",
+  "payload": "{\n  \"deal_id\": 7,\n  \"money\": 100,\n  \"money\": -100\n}",
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T21:01:08.593Z"
+},

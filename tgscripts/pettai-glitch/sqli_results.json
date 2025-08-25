@@ -1,0 +1,24 @@
+{
+  "payload": "1 OR 1=1",
+  "response": "{\"error\":\"质押金额过低\"}"
+},
+{
+  "payload": "7; -- ",
+  "response": "{\"error\":\"质押金额过低\"}"
+},
+{
+  "payload": "1 UNION SELECT version()",
+  "response": "{\"error\":\"质押金额过低\"}"
+},
+{
+  "payload": "1 UNION SELECT table_name FROM information_schema.tables--",
+  "response": "{\"error\":\"质押金额过低\"}"
+},
+{
+  "payload": "1' OR '1'='1",
+  "response": "{\"error\":\"质押金额过低\"}"
+},
+{
+  "payload": "1') OR ('1'='1",
+  "response": "{\"error\":\"质押金额过低\"}"
+},

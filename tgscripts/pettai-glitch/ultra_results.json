@@ -1,0 +1,506 @@
+{
+  "strategy": "clean",
+  "payload": {
+    "deal_id": 7,
+    "money": 100
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T21:47:33.420Z"
+},
+{
+  "strategy": "duplicate-keys",
+  "payload": "{\"deal_id\":7,\"money\":100,\"money\":-100}",
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T21:47:33.872Z"
+},
+{
+  "strategy": "query-vs-body",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T21:47:34.387Z"
+},
+{
+  "strategy": "field-variants",
+  "payload": {
+    "deal_id": 7,
+    "money": 100,
+    "Money": -100,
+    "money_": -100,
+    "money‌": -100
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T21:47:34.920Z"
+},
+{
+  "strategy": "number-test-0x64",
+  "payload": {
+    "deal_id": 7,
+    "money": "0x64"
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T21:47:35.408Z"
+},
+{
+  "strategy": "number-test-1e2",
+  "payload": {
+    "deal_id": 7,
+    "money": "1e2"
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T21:47:35.920Z"
+},
+{
+  "strategy": "number-test-100.0abc",
+  "payload": {
+    "deal_id": 7,
+    "money": "100.0abc"
+  },
+  "response": {
+    "error": "质押金额超限"
+  },
+  "translated": "Pledged amount exceeds limit",
+  "timestamp": "2025-07-25T21:47:36.396Z"
+},
+{
+  "strategy": "number-test-000100",
+  "payload": {
+    "deal_id": 7,
+    "money": "000100"
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T21:47:36.770Z"
+},
+{
+  "strategy": "number-test-1e+100",
+  "payload": {
+    "deal_id": 7,
+    "money": 1e+100
+  },
+  "response": {
+    "error": "余额不足"
+  },
+  "translated": "Unknown error: 余额不足",
+  "timestamp": "2025-07-25T21:47:37.258Z"
+},
+{
+  "strategy": "number-test-0",
+  "payload": {
+    "deal_id": 7,
+    "money": 0
+  },
+  "response": {
+    "error": "请输入有效金额"
+  },
+  "translated": "Unknown error: 请输入有效金额",
+  "timestamp": "2025-07-25T21:47:37.655Z"
+},
+{
+  "strategy": "number-test-Infinity",
+  "payload": {
+    "deal_id": 7,
+    "money": null
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T21:47:38.167Z"
+},
+{
+  "strategy": "header-injection",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T21:47:38.604Z"
+},
+{
+  "strategy": "proto-pollution",
+  "payload": {
+    "deal_id": 7,
+    "money": 100,
+    "constructor": {
+      "money": -100
+    }
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T21:47:39.086Z"
+},
+{
+  "strategy": "unicode-bypass",
+  "payload": {
+    "deal_id": 7,
+    "money": 100
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T21:47:39.462Z"
+},
+{
+  "strategy": "logic-abuse--100",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T21:47:39.906Z"
+},
+{
+  "strategy": "logic-abuse-0",
+  "payload": {
+    "deal_id": 7,
+    "money": 0
+  },
+  "response": {
+    "error": "请输入有效金额"
+  },
+  "translated": "Unknown error: 请输入有效金额",
+  "timestamp": "2025-07-25T21:47:40.317Z"
+},
+{
+  "strategy": "logic-abuse-1000000000",
+  "payload": {
+    "deal_id": 7,
+    "money": 1000000000
+  },
+  "response": {
+    "error": "余额不足"
+  },
+  "translated": "Unknown error: 余额不足",
+  "timestamp": "2025-07-25T21:47:40.733Z"
+},
+{
+  "strategy": "clean",
+  "payload": {
+    "deal_id": 7,
+    "money": 100
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T22:16:05.052Z"
+},
+{
+  "strategy": "duplicate-keys",
+  "payload": "{\"deal_id\":7,\"money\":100,\"money\":-100}",
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T22:16:05.752Z"
+},
+{
+  "strategy": "query-vs-body",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T22:16:06.156Z"
+},
+{
+  "strategy": "field-variants",
+  "payload": {
+    "deal_id": 7,
+    "money": 100,
+    "Money": -100,
+    "money_": -100,
+    "money‌": -100
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T22:16:06.573Z"
+},
+{
+  "strategy": "number-test-0x64",
+  "payload": {
+    "deal_id": 7,
+    "money": "0x64"
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T22:16:06.976Z"
+},
+{
+  "strategy": "number-test-1e2",
+  "payload": {
+    "deal_id": 7,
+    "money": "1e2"
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T22:16:07.459Z"
+},
+{
+  "strategy": "number-test-100.0abc",
+  "payload": {
+    "deal_id": 7,
+    "money": "100.0abc"
+  },
+  "response": {
+    "error": "质押金额超限"
+  },
+  "translated": "Pledged amount exceeds limit",
+  "timestamp": "2025-07-25T22:16:07.908Z"
+},
+{
+  "strategy": "number-test-000100",
+  "payload": {
+    "deal_id": 7,
+    "money": "000100"
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T22:16:08.277Z"
+},
+{
+  "strategy": "number-test-1e+100",
+  "payload": {
+    "deal_id": 7,
+    "money": 1e+100
+  },
+  "response": {
+    "error": "余额不足"
+  },
+  "translated": "Unknown error: 余额不足",
+  "timestamp": "2025-07-25T22:16:08.635Z"
+},
+{
+  "strategy": "number-test-0",
+  "payload": {
+    "deal_id": 7,
+    "money": 0
+  },
+  "response": {
+    "error": "请输入有效金额"
+  },
+  "translated": "Unknown error: 请输入有效金额",
+  "timestamp": "2025-07-25T22:16:09.021Z"
+},
+{
+  "strategy": "number-test-Infinity",
+  "payload": {
+    "deal_id": 7,
+    "money": null
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T22:16:09.438Z"
+},
+{
+  "strategy": "header-injection",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T22:16:09.840Z"
+},
+{
+  "strategy": "proto-pollution",
+  "payload": {
+    "deal_id": 7,
+    "money": 100,
+    "constructor": {
+      "money": -100
+    }
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T22:16:10.252Z"
+},
+{
+  "strategy": "unicode-bypass",
+  "payload": {
+    "deal_id": 7,
+    "money": 100
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T22:16:10.663Z"
+},
+{
+  "strategy": "logic-abuse--100",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T22:16:11.070Z"
+},
+{
+  "strategy": "logic-abuse-0",
+  "payload": {
+    "deal_id": 7,
+    "money": 0
+  },
+  "response": {
+    "error": "请输入有效金额"
+  },
+  "translated": "Unknown error: 请输入有效金额",
+  "timestamp": "2025-07-25T22:16:11.432Z"
+},
+{
+  "strategy": "logic-abuse-1000000000",
+  "payload": {
+    "deal_id": 7,
+    "money": 1000000000
+  },
+  "response": {
+    "error": "余额不足"
+  },
+  "translated": "Unknown error: 余额不足",
+  "timestamp": "2025-07-25T22:16:11.889Z"
+},
+{
+  "strategy": "clean",
+  "payload": {
+    "deal_id": 7,
+    "money": 100
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T22:19:13.159Z"
+},
+{
+  "strategy": "header-var-Authorization",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T22:19:13.544Z"
+},
+{
+  "strategy": "header-var-Authorization",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": {
+    "error": "请登录",
+    "skip": "login",
+    "s": 2
+  },
+  "translated": "Unknown error: 请登录",
+  "timestamp": "2025-07-25T22:19:13.982Z"
+},
+{
+  "strategy": "header-var-Authorization",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": {
+    "error": "请登录",
+    "skip": "login",
+    "s": 2
+  },
+  "translated": "Unknown error: 请登录",
+  "timestamp": "2025-07-25T22:19:14.362Z"
+},
+{
+  "strategy": "header-var-X-Auth-Token",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": "<pre/>",
+  "translated": null,
+  "timestamp": "2025-07-25T22:19:14.787Z"
+},
+{
+  "strategy": "header-var-X-API-Key",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": "<pre/>",
+  "translated": null,
+  "timestamp": "2025-07-25T22:19:15.179Z"
+},
+{
+  "strategy": "header-var-Token",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": "<pre/>",
+  "translated": null,
+  "timestamp": "2025-07-25T22:19:15.598Z"
+},
+{
+  "strategy": "header-var-Cookie",
+  "payload": {
+    "deal_id": 7,
+    "money": -100
+  },
+  "response": "<pre/>",
+  "translated": null,
+  "timestamp": "2025-07-25T22:19:16.003Z"
+},

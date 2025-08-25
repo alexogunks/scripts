@@ -1,0 +1,50 @@
+PET ID: a201e041-5122-4da6-b9bd-27433448e5c9
+
+
+
+
+curl -H "Authorization: {\"id\":6562841812,\"first_name\":\"Alex\",\"last_name\":\"Ogunks\",\"username\":\"alexogunks\",\"photo_url\":\"https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg\",\"auth_date\":1751712505,\"hash\":\"8995fa8381286552a2b9ea37f93124e520092655071a4055e6da576c69585355\"}" https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/getTokenBalanceNXP
+curl -H "Authorization: {\"id\":6562841812,\"first_name\":\"Alex\",\"last_name\":\"Ogunks\",\"username\":\"alexogunks\",\"photo_url\":\"https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg\",\"auth_date\":1751712505,\"hash\":\"a2a22713fdd75e96805b102fda02d78166d1fe7947bf9ccc6377a7883a147d0f\"}" https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/achievements
+
+
+curl -X POST  https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/withdraw \ -H "Content-Type: application/json" \ -H "Authorization: {\"id\":6562841812,\"first_name\":\"Alex\",\"last_name\":\"Ogunks\",\"username\":\"alexogunks\",\"photo_url\":\"https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg\",\"auth_date\":1751712505,\"hash\":\"8995fa8381286552a2b9ea37f93124e520092655071a4055e6da576c69585355\"}" \ -d '{ "user": { "id": 6562841812, "first_name": "Alex", "last_name": "Ogunks", "username": "alexogunks", "photo_url": "https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg", "auth_date": 1751740974, "hash": "93cf2e6088c25c56f20e51e90d0195a226f23f95dfec92e7f4bc495c6df7672b" }, "idWithdraw": "0f10c1c4-913d-400d-b0fe-8da8a42a5d06"}'
+curl -X POST  https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/withdraw -H "Content-Type: application/json" -d '{ "user": { "id": 6562841812, "first_name": "Alex", "last_name": "Ogunks", "username": "alexogunks", "photo_url": "https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg", "auth_date": 1751740974, "hash": "93cf2e6088c25c56f20e51e90d0195a226f23f95dfec92e7f4bc495c6df7672b" }, "idWithdraw": "0f10c1c4-913d-400d-b0fe-8da8a42a5d06"}'
+
+curl -X POST "https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/withdraw" ^
+  -H "Content-Type: application/json" ^
+  -d "{ \"user\": { \"id\": 6562841812, \"first_name\": \"Alex\", \"last_name\": \"Ogunks\", \"username\": \"alexogunks\", \"photo_url\": \"https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg\", \"auth_date\": 1751740974, \"hash\": \"93cf2e6088c25c56f20e51e90d0195a226f23f95dfec92e7f4bc495c6df7672b\" }, \"idWithdraw\": \"0f10c1c4-913d-400d-b0fe-8da8a42a5d06\"}"
+
+curl -X POST "https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/withdraw/create" ^
+  -H "Content-Type: application/json" ^
+  -d "{ \"user\": { \"id\": 6562841812, \"first_name\": \"Alex\", \"last_name\": \"Ogunks\", \"username\": \"alexogunks\", \"photo_url\": \"https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg\", \"auth_date\": 1751740974, \"hash\": \"93cf2e6088c25c56f20e51e90d0195a226f23f95dfec92e7f4bc495c6df7672b\" }, \"idWithdraw\": \"0f10c1c4-913d-400d-b0fe-8da8a42a5d06\"}"
+
+curl -X PUT "https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/getPlayerWebApp" ^
+  -H "Content-Type: application/json" ^
+  -d "{ \"user\": { \"id\": 6562841812, \"first_name\": \"Alex\", \"last_name\": \"Ogunks\", \"username\": \"alexogunks\", \"photo_url\": \"https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg\", \"auth_date\": 1751740974, \"hash\": \"93cf2e6088c25c56f20e51e90d0195a226f23f95dfec92e7f4bc495c6df7672b\" }, \"idWithdraw\": \"0f10c1c4-913d-400d-b0fe-8da8a42a5d06\"}"
+
+curl -X POST "https://petbot-monorepo-api-delta-333713154917.europe-west1.run.app/api/withdraw" ^
+  -H "Content-Type: application/json" ^
+  -d "{ \"user\": { \"id\": 6562841812, \"first_name\": \"Alex\", \"last_name\": \"Ogunks\", \"username\": \"alexogunks\", \"photo_url\": \"https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg\", \"auth_date\": 1751740974, \"hash\": \"93cf2e6088c25c56f20e51e90d0195a226f23f95dfec92e7f4bc495c6df7672b\" }, \"idWithdraw\": \"0f10c1c4-913d-400d-b0fe-8da8a42a5d06\"}"
+
+curl -X POST https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/plinko/createGame -H "Content-Type: application/json" -H "Authorization: query_id=AAHFvMcRAwAAAMW8xxFoe76L&user=%7B%22id%22%3A6740753605%2C%22first_name%22%3A%22tcg.%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22tcga0%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FXXDF8KARYApc0BMMRe0eamTP-dv7V8yg3agm3bQDEEzEOy1WIjjx1HgrAeDDGN4I.svg%22%7D&auth_date=1751815795&signature=bIl2hofomPu8AabfqeTYy7ogz3gIWvB4CydCZ3VG_M-PNi0__QSfriZLJkAbgZfyhYN8H5IPnaba8C4w67apBQ&hash=8443c714aa35a8a2add8887ed15dccd3149f0c22ccace11ea462f3b5437f754b" -d "{ \"ballBet\": \"1\", \"amountOfBalls\": \"1\", \"nrRows\": \"8\", \"risk\": \"2\" }"
+
+
+"a2a22713fdd75e96805b102fda02d78166d1fe7947bf9ccc6377a7883a147d0f"
+
+curl -X POST https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/status -H "Content-Type: application/json" -d "{ \"id\": 6562841812, \"first_name\": \"Alex\", \"last_name\": \"Ogunks\", \"username\": \"alexogunks\", \"photo_url\": \"https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg\", \"auth_date\": 1751888724, \"hash\": \"a2a22713fdd75e96805b102fda02d78166d1fe7947bf9ccc6377a7883a147d0f\"}"
+
+curl -X POST https://tonblitzapi.bitsapiens.io/api/users/buy-spin -H "Content-Type: application/json" -H "X-Api-Key: 541dfbd3-fb5d-434c-a04d-811b8e5c1f13" -d "{ \"userId\": 13385 }"
+curl -X POST https://tonblitzapi.bitsapiens.io/api/users/reward -H "Content-Type: application/json" -H "X-Api-Key: 541dfbd3-fb5d-434c-a04d-811b8e5c1f13" -d "{ \"userId\": 13385, \"rewardType\": \"PETBRO_GOLD\" }"
+
+curl -X POST -H "Content-Type: application/json" -H "X-Api-Key: 541dfbd3-fb5d-434c-a04d-811b8e5c1f13" -d "{ \"userId\": 13385, \"rewardType\": \"PETBRO_GOLD\" }" https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/users
+
+curl -X POST -H "Content-Type: application/json" -d "{ \"user\": { \"id\": 6562841812, \"first_name\": \"Alex\", \"last_name\": \"Ogunks\", \"username\": \"alexogunks\", \"photo_url\": \"https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg\", \"auth_date\": 1751740974, \"hash\": \"93cf2e6088c25c56f20e51e90d0195a226f23f95dfec92e7f4bc495c6df7672b\" }, \"idWithdraw\": \"0f10c1c4-913d-400d-b0fe-8da8a42a5d06\"}" "https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/status"
+
+ffuf -u https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/FUZZ -X POST -w endpoints.txt -H "Content-Type: application/json" -d "{ \"user\": { \"id\": 6562841812, \"first_name\": \"Alex\", \"last_name\": \"Ogunks\", \"username\": \"alexogunks\", \"photo_url\": \"https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg\", \"auth_date\": 1751740974, \"hash\": \"93cf2e6088c25c56f20e51e90d0195a226f23f95dfec92e7f4bc495c6df7672b\" }, \"idWithdraw\": \"0f10c1c4-913d-400d-b0fe-8da8a42a5d06\"}" -mc all
+ffuf -u https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/FUZZ -w endpoints.txt -H "Content-Type: application/json" -mc all
+
+curl https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/plinko
+
+
+
+curl -H "Authorization: {\"id\":6562841812,\"first_name\":\"Alex\",\"last_name\":\"Ogunks\",\"username\":\"alexogunks\",\"photo_url\":\"https://t.me/i/userpic/320/v9BI9n12C4xldYtafBE3d3pU0-I3G-mhi_mxC4WzettCQnZuFqClfixZKAkmPPbb.jpg\",\"auth_date\":1752014206,\"hash\":\"0e73519fa6d62b45f86b4ffc467341ab69c248b4f9d5b979605232de77d606e6\"}" https://petbot-monorepo-main-333713154917.europe-west1.run.app/api/withdraw/getByStatus?status=AVAILABLE

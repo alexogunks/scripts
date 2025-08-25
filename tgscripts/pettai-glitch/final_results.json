@@ -1,0 +1,83 @@
+{
+  "strategy": "deal-id-test-0",
+  "payload": {
+    "deal_id": 0,
+    "money": 100
+  },
+  "response": {
+    "error": "请选择"
+  },
+  "translated": "Please select a valid deal",
+  "timestamp": "2025-07-25T22:00:36.125Z"
+},
+{
+  "strategy": "deal-id-test--1",
+  "payload": {
+    "deal_id": -1,
+    "money": 100
+  },
+  "response": {
+    "error": "标的不存在"
+  },
+  "translated": "Unknown error: 标的不存在",
+  "timestamp": "2025-07-25T22:00:37.003Z"
+},
+{
+  "strategy": "deal-id-test-9999",
+  "payload": {
+    "deal_id": 9999,
+    "money": 100
+  },
+  "response": {
+    "error": "标的不存在"
+  },
+  "translated": "Unknown error: 标的不存在",
+  "timestamp": "2025-07-25T22:00:37.414Z"
+},
+{
+  "strategy": "deal-id-test-7abc",
+  "payload": {
+    "deal_id": "7abc",
+    "money": 100
+  },
+  "response": {
+    "error": "账户余额不足"
+  },
+  "translated": "Insufficient account balance",
+  "timestamp": "2025-07-25T22:00:37.854Z"
+},
+{
+  "strategy": "combined-desync-raw",
+  "payload": "{\"deal_id\":7,\"money\":100,\"money\":-100,\"Money\":-100}",
+  "response": {
+    "error": "质押金额过低"
+  },
+  "translated": "Pledged amount too low",
+  "timestamp": "2025-07-25T22:00:38.337Z"
+},
+{
+  "strategy": "nested-money-object",
+  "payload": {
+    "deal_id": 7,
+    "money": {
+      "display": 100,
+      "value": -100
+    }
+  },
+  "response": {
+    "error": "余额不足"
+  },
+  "translated": "Insufficient balance",
+  "timestamp": "2025-07-25T22:00:38.750Z"
+},
+{
+  "strategy": "missing-deal-id",
+  "payload": {
+    "money": -100
+  },
+  "response": {
+    "error": "请选择"
+  },
+  "translated": "Please select a valid deal",
+  "timestamp": "2025-07-25T22:00:39.152Z"
+},
