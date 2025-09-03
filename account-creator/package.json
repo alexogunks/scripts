@@ -1,0 +1,25 @@
+{
+  "name": "account-creator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "account-creator": "file:",
+    "node-fetch": "^3.3.2",
+    "php": "^1.1.0",
+    "puppeteer": "^23.11.1",
+    "puppeteer-core": "^24.2.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-recaptcha": "^3.6.8",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "random-useragent": "^0.5.0",
+    "tor-request": "^3.1.0"
+  }
+}

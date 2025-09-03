@@ -1,0 +1,13 @@
+Failed to create account ao4 ohgee: Error: Navigating frame was detached
+    at #onFrameDetached (C:\Users\USER\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\LifecycleWatcher.js:103:47)
+    at C:\Users\USER\node_modules\puppeteer-core\lib\cjs\third_party\mitt\mitt.js:62:7
+    at Array.map (<anonymous>)
+    at Object.emit (C:\Users\USER\node_modules\puppeteer-core\lib\cjs\third_party\mitt\mitt.js:61:20)
+    at CdpFrame.emit (C:\Users\USER\node_modules\puppeteer-core\lib\cjs\puppeteer\common\EventEmitter.js:83:23)
+    at #removeFramesRecursively (C:\Users\USER\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\FrameManager.js:451:15)
+    at #onClientDisconnect (C:\Users\USER\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\FrameManager.js:94:42)
+Error processing account ao4 ohgee: Error: Protocol error: Connection closed. Most likely the page has been closed.
+    at assert (C:\Users\USER\node_modules\puppeteer-core\lib\cjs\puppeteer\util\assert.js:18:15)
+    at CdpPage.close (C:\Users\USER\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\Page.js:839:36)
+    at async createAccount (C:\Users\USER\testing\account-creator\index-1.js:58:5)
+    at async C:\Users\USER\testing\account-creator\index-1.js:67:7
