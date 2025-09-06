@@ -2,11 +2,13 @@ import WebSocket from "ws";
 import { v4 as uuidv4 } from "uuid";
 
 const endpoint = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.app/";
-const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWY3ZHplcHowMDBuanAwY29rYzZkbzE1IiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTcxMTAwOTUsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21mN2R6ZXMxMDAwcGpwMGMwdGcwYXR0aiIsImV4cCI6MTc1NzExMzY5NX0.FqWi6b8lQZy0gLliUbyHPxPjU4k_6XPvA3xFWOVgX1v6JfzLcWZpoq17BAWgmyk-dOLwLZ-vT7TBZSHxsVXOiQ";
+const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWY3aGRvNzcwMDA5bGQwY2FhMXE0cXQxIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTcxMTU4MDAsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21mN2hkbzlhMDAwYmxkMGMzenNuNWI2NyIsImV4cCI6MTc1NzExOTQwMH0.Q0SaqnpAx2Uwg1Mie112YnG0Deg0XUrolhaLtxysQc69ltCArtbJIf8lnZD9qdUVAf0_AauoaKSqRmQrAwksjw";
 const origin = "https://app.pett.ai";
 
-const NUM_CONNECTIONS = 20;
-const messagesPerSecondPerSocket = 25;
+const pettName = "soeprr_ir_ew";
+
+const NUM_CONNECTIONS = 30;
+const messagesPerSecondPerSocket = 100;
 
 let totalRequestsSent = 0;
 
@@ -23,7 +25,7 @@ function startSpamLoop(ws, id) {
             authType: "privy",
             registerHash: {
               hash: jwt,
-              name: 'aocontinues2'
+              name: pettName
             }
           }
         },
@@ -38,7 +40,7 @@ function startSpamLoop(ws, id) {
       `Socket #${id} sent ${messagesPerSecondPerSocket} messages at ${time}`
     );
     console.log(`Total sent so far: ${totalRequestsSent}`);
-  }, 1000);
+  }, 500);
 }
 
 function connect(id) {

@@ -2,12 +2,12 @@ import WebSocket from "ws";
 import { v4 as uuidv4 } from "uuid";
 
 const endpoint = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.app/";
-const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWY3ZHplcHowMDBuanAwY29rYzZkbzE1IiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTcxMTAwOTUsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21mN2R6ZXMxMDAwcGpwMGMwdGcwYXR0aiIsImV4cCI6MTc1NzExMzY5NX0.FqWi6b8lQZy0gLliUbyHPxPjU4k_6XPvA3xFWOVgX1v6JfzLcWZpoq17BAWgmyk-dOLwLZ-vT7TBZSHxsVXOiQ";
+const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWY4OWpieG0wMDJ2a3kwYnF2aHltZnh0IiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTcxNzAxNjUsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21mODlqYnoxMDAyeGt5MGIzZ3NhOHhhYyIsImV4cCI6MTc1NzE3Mzc2NX0.7dPG8eflGl6FjBJeMc8zktXe0f2x7B2DpItaH8xTvziUB72FG3BLuFhjCcSLEtexuKjulHaym-HM3qAxtD3PMA";
 const origin = "https://app.pett.ai";
 
 let ws;
 let totalRequestsSent = 0;
-const messagesPerSecond = 5;
+const messagesPerSecond = 1000;
 let spamInterval;
 
 function sendMessagesPerSecond(count) {
@@ -15,13 +15,27 @@ function sendMessagesPerSecond(count) {
   const time = now.toLocaleTimeString();
 
   for (let i = 0; i < count; i++) {
+    // const message = {
+    //   type: "TRANSFER",
+    //   data: {
+    //     params: {
+    //       // petTo: "a201e041-5122-4da6-b9bd-27433448e5c9",
+    //       petTo: "0949b429-1139-4bb6-850e-25acb98fee57",
+    //       amount: "1000000000000000000000"
+    //     }
+    //   },
+    //   nonce: uuidv4()
+    // };
+
     const message = {
-      type: "TRANSFER",
+      type: "PLAY_DICE",
       data: {
-        params: {
-          petTo: "a201e041-5122-4da6-b9bd-27433448e5c9",
-          amount: "20000000000000000000000"
-        }
+          params: {
+              betAmount: 100,
+              selectedBet: {
+                  type: "odd"
+              }
+          }
       },
       nonce: uuidv4()
     };
