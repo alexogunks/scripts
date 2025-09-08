@@ -2,14 +2,15 @@ import WebSocket from "ws";
 import { v4 as uuidv4 } from "uuid";
 
 const endpoint = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.app/";
-const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWY4ODF2bWEwMHMxbGEwYmpibW1kZ3d0IiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTcxNjA1OTksImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21mODgxdm8zMDBzM2xhMGIzbm5sMjVpdCIsImV4cCI6MTc1NzE2NDE5OX0.kDT09eTSbGx-zSvgJKtIDT96p7e3iIaS_vmJt_ybC9XrTo_ztaqhbFI91FyT2AazunK8QV1DhaSMVxnfWeJrTA";
+const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWY4cHZnOXgwMG9ramowYmJkNDc4enRpIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTcxOTA1MzIsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21mOHB2Z2JoMDBvbWpqMGJ1ejBuZzQ2OCIsImV4cCI6MTc1NzE5NDEzMn0.5xM3vpQAwfZKjSvIXoKqL-BghqkVgHdWeOEvePDDxgPQeYh-jbACQC3BZ7MvRXtHZKqDhiUKeuQcDxJLGcQDig"
+
 const origin = "https://app.pett.ai";
 
 const pettName = `ao_${Math.round(Math.random() * 999)}_ran_${Math.round(Math.random() * 999)}`;
 console.log('Pett Name = ' + pettName)
 
-const connections = 15;
-const messagesPerSocket = 100;
+const connections = 18;
+const messagesPerSocket = 25;
 
 let sockets = [];
 
@@ -42,6 +43,14 @@ function buildSpamMessage() {
   };
 }
 
+// function buildSpamMessage() {
+//   return {
+//     type: "PLAY_DOORS",
+//     data: {},
+//     nonce: uuidv4()
+// };
+// }
+
 function sendBurst() {
   const payloads = sockets.flatMap(sock =>
     Array.from({ length: messagesPerSocket }, () => ({
@@ -52,7 +61,6 @@ function sendBurst() {
 
   console.log(`🚀 Sending burst of ${payloads.length} messages...`);
 
-  // Slightly defer to ensure all sockets are fully ready
   setImmediate(() => {
     payloads.forEach(({ sock, msg }) => {
       if (sock.readyState === WebSocket.OPEN) {

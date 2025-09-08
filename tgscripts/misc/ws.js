@@ -2,45 +2,46 @@ import WebSocket from "ws";
 import { v4 as uuidv4 } from "uuid";
 
 const endpoint = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.app/";
-const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWY4OWpieG0wMDJ2a3kwYnF2aHltZnh0IiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTcxNzAxNjUsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21mODlqYnoxMDAyeGt5MGIzZ3NhOHhhYyIsImV4cCI6MTc1NzE3Mzc2NX0.7dPG8eflGl6FjBJeMc8zktXe0f2x7B2DpItaH8xTvziUB72FG3BLuFhjCcSLEtexuKjulHaym-HM3qAxtD3PMA";
+const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWY4bnhkamswMTRmbGIwYjhwbGNrODhnIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTcxODcyNjMsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21mOG54ZGwyMDE0aGxiMGI1ZGtjemg5MCIsImV4cCI6MTc1NzE5MDg2M30.ZiRbCkE6a5IOL1UQUG9nbjBB7gQDt82YEgK4tWq9U6TJ0diH_K1zPUoAXrr1Dfe8BIEE4pPTLSksYT0nepvQyQ"
+
 const origin = "https://app.pett.ai";
 
-const pettName = 'aocontinues_rs_009';
+const pettName = `ao_${Math.floor(Math.random() * 1000)}_ran_${Math.floor(Math.random() * 1000)}`;
 
 const connectionCount = 15;
-const messagesPerBatch = 5000;
-const burstIntervalMs = 1;
+const messagesPerBatch = 50;
+const burstIntervalMs = 2000;
 
 let totalRequestsSent = 0;
 let sockets = [];
 
-// function makeMessage(socketId) {
-//   return {
-//     type: "REGISTER",
-//     data: {
-//       params: {
-//         authType: "privy",
-//         registerHash: {
-//           hash: jwt,
-//           name: pettName
-//         }
-//       }
-//     },
-//     nonce: uuidv4()
-//   };
-// }
-
-function makeMessage(id) {
-    return {
-        type: "PLAY_SLOTS",
-        data: {
-            params: {
-                betAmount: 500
-            }
-        },
-        nonce: uuidv4()
-    };
+function makeMessage(socketId) {
+  return {
+    type: "REGISTER",
+    data: {
+      params: {
+        authType: "privy",
+        registerHash: {
+          hash: jwt,
+          name: pettName
+        }
+      }
+    },
+    nonce: uuidv4()
+  };
 }
+
+// function makeMessage(id) {
+//     return {
+//         type: "PLAY_SLOTS",
+//         data: {
+//             params: {
+//                 betAmount: 500
+//             }
+//         },
+//         nonce: uuidv4()
+//     };
+// }
 
 function fireBurst() {
   const now = new Date().toLocaleTimeString();
@@ -77,6 +78,7 @@ function connect(socketId) {
 
   ws.on("message", (data) => {
     const msg = JSON.parse(data.toString());
+    console.log(msg)
     if (msg.type === "auth_result" /*&& msg.success*/) {
       console.log(`🔑 Socket ${socketId} authenticated`);
       console.log(msg);
