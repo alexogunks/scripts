@@ -5,22 +5,18 @@ const endpoint = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.
 const origin = "https://app.pett.ai";
 const pettName = `ao_cb_${Math.floor(Math.random() * 999)}_rs_${Math.floor(Math.random() * 999)}`;
 
-const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZnd2RpYm4wMDY4bDcwYnUwYjUwbDVqIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTc2ODUxODIsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21mZ3dkaWRpMDA2YWw3MGJ6bWdvYWszYyIsImV4cCI6MTc1NzY4ODc4Mn0.p6fmj8rBJe6d_Qe187twRi_8rVkUsSYm6VLRELmn60gnOL4VG_THHIBIvxnXAozTiSOpEBCLle9gtb5GlfPpKQ"
+const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZoZjc3NTcwMDEwanMwY3ZzN2FqYjdwIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTc3MTY4MDAsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21maGY3Nzc5MDAxMmpzMGMxcTJneTc1eSIsImV4cCI6MTc1NzcyMDQwMH0.LMR11LX6eUOCjVLLZ3DMdT5ekYxBFZcMl0fLMNHg9sWBT1ckI3eX3I5yhrwhnTs3nm-N8uFEbyayyoQXaIkS8g"
 
 // ---- CONFIG ----
-const type = 'register';
-
-const TOTAL_SOCKETS = type != 'jump' ? 700 : 1;
-const REQUESTS_PER_SOCKET = type != 'jump' ? 4 : 1;
+const type = 'food';
+const DICE_MODE = "number"; // "number" | "even" | "odd"
+const betAmount = 5000;
+const TOTAL_SOCKETS = type != 'jump' ? 10 : 1;
+const REQUESTS_PER_SOCKET = type != 'jump' ? 20 : 1;
 const BLAST_DURATION_MS = 40;
-const REST_BETWEEN_WAVES_MS = type != 'jump' ? 300 : 500;
+const REST_BETWEEN_WAVES_MS = type != 'jump' ? 500 : 500;
 
-const withdrawalId = "830e54c8-a27b-469e-9fd0-b73dbd8d2d52";
-
-// "32aee47a-3f3f-450c-8d41-cc960e77bca0"
-
-// JUMPED
-// "830e54c8-a27b-469e-9fd0-b73dbd8d2d52"
+const withdrawalId = "fad13d11-6f9a-413a-bb73-89d6b9ef19db";
 
 // ---- STATE ----
 let sockets = [];
@@ -56,19 +52,15 @@ function makeJumpString() {
     type: "WITHDRAWAL_JUMP",
     data: { params: { withdrawalId } },
     nonce: uuidv4()
-})
+  });
 }
 
 function makeWithdrawString() {
   return JSON.stringify({
     type: "WITHDRAWAL_USE",
-    data: {
-        params: {
-            withdrawalId
-        }
-    },
+    data: { params: { withdrawalId } },
     nonce: uuidv4()
-})
+  });
 }
 
 function makeDoorString() {
@@ -76,7 +68,52 @@ function makeDoorString() {
     type: "PLAY_DOORS",
     data: {},
     nonce: uuidv4()
-  })
+  });
+}
+
+function makeBuyString() {
+  return JSON.stringify({
+    type: "CONSUMABLES_BUY",
+    data: {
+        params: {
+            foodId: "ENERGIZER",
+            amount: 1
+        }
+    },
+    nonce: uuidv4()
+})
+}
+
+// ---- Dice Betting Logic ----
+function chooseDiceBet(mode = "number") {
+  if (mode === "number") {
+    if (Math.random() < 0.7) {
+      return Math.random() < 0.5 ? 3 : 4;
+    } else {
+      return Math.floor(Math.random() * 6) + 1;
+    }
+  } else if (mode === "even") {
+    return "EVEN";
+  } else if (mode === "odd") {
+    return "ODD";
+  }
+}
+
+function makeDiceString(mode = DICE_MODE) {
+  const choice = chooseDiceBet(mode);
+  return JSON.stringify({
+    type: "PLAY_DICE",
+    data: {
+        params: {
+            betAmount,
+            selectedBet: {
+                number: choice,
+                type: "number"
+            }
+        }
+    },
+    nonce: uuidv4()
+});
 }
 
 // ---- send gradually ----
@@ -95,21 +132,25 @@ function blastWave() {
 
   for (const { ws } of live) {
     for (let j = 0; j < REQUESTS_PER_SOCKET; j++) {
-      type.toLowerCase() !== 'register' && ws.send(makeAuthString());
-      setTimeout(() => {
+    setTimeout(() => {
         const t = type.toLowerCase();
         try {
-          ws.send(
-            t === 'register' ? makeRegisterString() : t === 'jump' ? makeJumpString() : t === 'door' ? makeDoorString() : t === 'withdraw' && makeWithdrawString(),
-            { compress: false }
-          );
-          sent++;
+            t !== 'register' && ws.send(makeAuthString());
+            ws.send(
+                t === 'register' ? makeRegisterString()
+                : t === 'jump' ? makeJumpString()
+                : t === 'door' ? makeDoorString()
+                : t === 'dice' ? makeDiceString(DICE_MODE)
+                : t === 'withdraw' ? makeWithdrawString()
+                : t === 'food' && makeBuyString(),
+                { compress: false }
+            );
+            sent++;
         } catch {}
       }, j * interval);
     }
   }
 
-  // finish after the whole window
   setTimeout(() => {
     totalSent += sent;
     console.log(
@@ -119,7 +160,6 @@ function blastWave() {
     setTimeout(blastWave, REST_BETWEEN_WAVES_MS);
   }, BLAST_DURATION_MS + 20);
 }
-
 
 // ---- sockets ----
 function connectSocket(socketId) {
@@ -134,7 +174,6 @@ function connectSocket(socketId) {
     sockets.push({ ws, id: socketId });
     console.log(`✅ Socket ${socketId} connected (${sockets.length}/${TOTAL_SOCKETS})`);
 
-    // Start waves as soon as the initial pool is ready
     if (sockets.length === TOTAL_SOCKETS && !blasting) {
       console.log("🚀 All sockets ready — starting waves");
       blastWave();
@@ -143,18 +182,16 @@ function connectSocket(socketId) {
 
   ws.on("message", (m) => {
     const msg = JSON.parse(m.toString());
-    let t = msg.type;
-    t.toLowerCase() !== 'auth_result' && console.log(msg);
     console.log(msg);
-    let n = msg.error?.toLowerCase() === 'user already created';
-    n ? totalReceived += 1 : totalReceived += 0
+    if (msg.error?.toLowerCase() === 'user already created') {
+      totalReceived += 1;
+    }
     console.log('Total cm Received=' + totalReceived);
   });
 
   ws.on("close", () => {
     console.log(`🔒 Socket ${socketId} closed`);
     sockets = sockets.filter((s) => s.id !== socketId);
-    // no reconnect — continue with remaining sockets
   });
 
   ws.on("error", (err) => {
