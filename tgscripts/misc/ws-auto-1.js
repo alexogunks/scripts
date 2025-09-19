@@ -8,10 +8,10 @@ const origin = "https://app.pett.ai";
 // Name & JWT (replace as needed)
 const pettName = `discarded_${Math.floor(Math.random() * 999999)}_t1`;
 const jwt =
-  "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZva2JxeXQwMDExankwYm5uNjUyYWRyIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgxNDg2NzQsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lMGxsdXhwMDAyOWxlMGJyYWtrZzVuZCIsImV4cCI6MTc1ODE1MjI3NH0.08aJUYdxzewwWpn32DtqOsny4KSxmKbPqy7xJDyicStegfxrVxBDS6NSkjlyF-GvnLcPFIwYcAztYrSA3cseKg"
+  "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZxNWl5djgwMGZ2bDEwY3RpbnNjbGhhIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgzMDkxNDIsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21kMTUxdzhtMDQwM2xlMG02NDV1c3JrcSIsImV4cCI6MTc1ODMxMjc0Mn0.r-QhYCB0kuTAaXbeLZLs2--Ct96TAasQ1hWodjZHCIAbDwcnaeVsjDfG-K_Q-po_ol5tMTzqMMXJt7Jj7K5fzg"
 
 // Start mode
-let type = "dice"; // "register" | "withdraw" | "food" | "atm" | "dice" | "jump" | "door"
+let type = "food"; // "register" | "withdraw" | "food" | "atm" | "dice" | "jump" | "door"
 const useAtm = false;
 
 /** ====== TUNABLE CONNECT LIMITS ====== */
@@ -30,7 +30,7 @@ const DELAY_AFTER_AUTH_MS = 2000;
 
 // Level-based switching
 let currentLevel = 0;
-let levelAim = 10;
+let levelAim = 26;
 
 // Token balance (populated from server messages)
 let tokenBalance = 0;
@@ -102,7 +102,7 @@ const makeDoorString = () => JSON.stringify({
 
 const makeBuyString = () => JSON.stringify({
   type: "CONSUMABLES_BUY",
-  data: { params: { foodId: "ENERGIZER", amount: 1 + Math.random() * 0.01 } },
+  data: { params: { foodId: "ENERGIZER", amount: 1 /*+ Math.random() * 0.01 */} },
   nonce: uniqueNonce(),
 });
 
@@ -145,7 +145,8 @@ const CONFIGS = {
     REST_BETWEEN_WAVES_MS: 1000,
   },
   food: {
-    TOTAL_SOCKETS: rand1to10(),
+    // TOTAL_SOCKETS: rand1to10(),
+    TOTAL_SOCKETS: 2,
     REQUESTS_PER_SOCKET: 5,
     BLAST_DURATION_MS: 40,
     REST_BETWEEN_WAVES_MS: 1000,
@@ -163,7 +164,7 @@ const CONFIGS = {
     REST_BETWEEN_WAVES_MS: 500,
   },
   dice: {
-    TOTAL_SOCKETS: 10,
+    TOTAL_SOCKETS: 4,
     REQUESTS_PER_SOCKET: 20,
     BLAST_DURATION_MS: 40,
     REST_BETWEEN_WAVES_MS: 500,
@@ -334,7 +335,7 @@ function onMessageFactory(sock) {
       if (currentLevel >= levelAim && type !== "atm" && useAtm === true) {
         console.log(`🏁 Level ≥ ${levelAim} — switching to ATM`);
         switchType("atm");
-      }
+      } else if (currentLevel >= levelAim && type === 'food') return console.log('🍗 Level Reached!')
     }
 
     // Token balance tracking

@@ -7,10 +7,10 @@ const origin = "https://app.pett.ai";
 // const pettName = `ao_nb_${Math.floor(Math.random() * 999)}_rn_${Math.floor(Math.random() * 999)}`;
 const pettName = `discarded_${Math.floor(Math.random() * 999999)}_t1`;
 // const pettName = `t.a_banker_${Math.floor(Math.random() * 999)}`;
-const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZoY2dhdXkwMDVoanUwYXkwMnc4YmV5IiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgxNDc1NjAsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lbnNmaGFlMDA2ZGw5MGNrdjU2cmtyYSIsImV4cCI6MTc1ODE1MTE2MH0.DAOse-qOf453YQMOLJHe_LSds5yjBoQqiVowwPYhXPPmbnRbA-E2D864agiaoc6sao6cd1TyIh_c1N_guPChcw"
+const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZxNWl5djgwMGZ2bDEwY3RpbnNjbGhhIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgzMDkxNDIsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21kMTUxdzhtMDQwM2xlMG02NDV1c3JrcSIsImV4cCI6MTc1ODMxMjc0Mn0.r-QhYCB0kuTAaXbeLZLs2--Ct96TAasQ1hWodjZHCIAbDwcnaeVsjDfG-K_Q-po_ol5tMTzqMMXJt7Jj7K5fzg"
 
 /** start type */
-let type = "jump"; // "register" | "withdraw" | "food" | "atm" | "dice" | "jump" | "door"
+let type = "food"; // "register" | "withdraw" | "food" | "atm" | "dice" | "jump" | "door"
 
 const useAtm = false;
 
@@ -76,14 +76,15 @@ const makeDoorString = () =>
 const makeBuyString = () =>
   JSON.stringify({
     type: "CONSUMABLES_BUY",
-  data: { params: { foodId: "ENERGIZER", amount: 1 + Math.random() * 0.01 } },
+  // data: { params: { foodId: "ENERGIZER", amount: 1 + Math.random() * 0.01 } },
+  data: { params: { foodId: "ENERGIZER", amount: 1 } },
     nonce: uniqueNonce(),
   });
 
 // const makeBuyString = () =>
 //   JSON.stringify({
 //     type: "CONSUMABLES_BUY",
-//     data: { params: { foodId: "POTION", amount: 1 + Math.random() * 0.01 } },
+//     data: { params: { foodId: "POTION", amount: 1 } },
 //     nonce: uniqueNonce(),
 //   });
 
@@ -179,7 +180,7 @@ let blasting = false;
 let sendingStarted = false;
 
 let currentLevel = 0;
-let levelAim = 10;
+let levelAim = 25;
 let tokenBalance = 0;
 
 let pendingOpenType = null;
