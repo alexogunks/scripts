@@ -63,7 +63,7 @@ class RobustSocket {
 
   async _connect() {
     if (this.stopped) return;
-    const headers = { Origin: ORIGIN, "User-Agent": "node/ws" };
+    const headers = { Origin: ORIGIN, "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" };
 
     console.log(`[${this.actionType}] connecting...`);
     this.ws = new WebSocket(ENDPOINT, { headers, perMessageDeflate: false });

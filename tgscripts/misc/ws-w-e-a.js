@@ -24,28 +24,10 @@ const MAX_JUMPS_PER_ID = 30;
 /** ====== INPUT: MULTI-JWT + WITHDRAW IDS ====== */
 const jwtGroups = [
   {
-    jwt: "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZxNWl5djgwMGZ2bDEwY3RpbnNjbGhhIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgyNDQ3NDksImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21kMTUxdzhtMDQwM2xlMG02NDV1c3JrcSIsImV4cCI6MTc1ODI0ODM0OH0.y7vl4AkekPwvkY-OV0Etc4IWPyIS0IpTxgACVWBcmUc8_4Kv1iPFwM32VDbfCllk8BbHMZ3avsflV4fU98AKIQ",
+    jwt: "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZqdGhvczIwMDAzbDUwYm53OWxmdnMyIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgzNzY4MDAsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lMTF6bG16MDBrdmw1MGJjeXM2b3psaiIsImV4cCI6MTc1ODM4MDQwMH0.Yj_WswGD4oo5zjAf0oil5e8mDXvlMFZFWTFsh6PhtYyfxq5kP-cEhus_BCVuwvSd8-QCjjXPTca1m-V1NXl-8g",
     withdrawals: [
-        // GeeBaby
-        // "535657fd-365e-4e99-a4eb-6054f34f6a0a",
-        // "4e7e6882-eff6-49f8-8cde-08beffe39b3e",
-        // "db6fb7dd-c7ba-4c11-97ce-37530b374bd0",
-        // "8c162aa7-5a95-454f-b7ee-8c870eb49919",
-        // "6ec75923-5c09-412f-b762-8d1b84469428",
-        // "0909df82-c2b2-4ccc-9c10-15b60ba6052d",
-        // "ceaa7727-e0e7-4f64-9bad-41d8cd9192f1",
-        // "7d2578ee-d448-4b96-a528-10bb6a485f6e",
-        // "87ec7da0-4d88-4692-8fd8-24378705b0fd",
-        // thecreeptoguy
-        "61c8298f-5129-4897-91ee-e77c1bb37172",
-        "4741702a-1332-44f1-9e7f-d4048425f15e",
-        "e7bddcc2-0991-49d7-a62f-7eca37ac8dc3",
-        "772d5cf1-b8ab-44e5-b5a1-653d17ce8a4c",
-        "e44b4b1c-48d4-48cd-9ef6-ed8b69020dea",
-        // "1171321b-8c9b-41ee-b1cd-da8de8237026",
-        // "adab2d62-4b36-4c51-b4d2-c091d1bcbaa3",
-        "39580c9f-6528-4d79-aef0-d37fc7036560",
-        // "6b9ce39c-8d17-4597-b9c0-434a75e7f619",
+        // Temzzz
+        "a695553b-3bfa-410f-af92-7e33c8fc63b8"
     ],
   },
 ];
@@ -182,6 +164,7 @@ function runGroup(group, accountIndex) {
       ws.on("message", (m) => {
         try {
           const msg = JSON.parse(m.toString());
+          console.log(msg);
           if (msg.error) console.log(`⚠️ [Acc#${accountIndex}]`, msg.error);
         } catch {}
       });

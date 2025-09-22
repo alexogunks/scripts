@@ -16,33 +16,23 @@ const MAX_CONCURRENT_CONNECTS = 50;  // simultaneous
 
 // Full vs Used sockets
 const TOTAL_SOCKETS = 300; // actually connect this many
-const ACTIVE_LIMIT = 40;  // but only *use* this many once connected
+const ACTIVE_LIMIT = 10;  // but only *use* this many once connected
 
 /** ====== INPUT: MULTI-JWT + WITHDRAW IDS ====== */
 const jwtGroups = [
   {
-    jwt: "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZxMzdvbjQwMDJmbGQwZHFhMXdmcTc2IiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgyNDA4NjMsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lMGx0N25mMDA5MWpsMGJ6b2tybDB4aiIsImV4cCI6MTc1ODI0NDQ2M30.YBdPGbGWMkYh61Qd2mcZQT0d-B0zC2Erd0e_OpQfjM3UnJbIRGLEgdtn53FNZqGrmbl4yH3rQiT_qXkbPOpDvw",
+    jwt: "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZyaDJ3bWkwMDFubDIwZGFvc2YxYzFwIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgzNzg2MDMsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lMGx0N25mMDA5MWpsMGJ6b2tybDB4aiIsImV4cCI6MTc1ODM4MjIwM30.r114MMpbgD9wQ8ah_SEytEruRxNM1gTBfxX0sw3DH9TbbEZ_ZHs0-84LwMJgTPQUKJR4YhG3yMaZd5CmgtWcLw",
     withdrawals: [
-      // Gamby
-      // "8fe82985-cd89-4578-a4fe-5da90cefb66b",
-      // "1c027585-0a08-451c-8ee1-c891f9cfbaa2",
-      // "43a0b6a3-75cc-49ea-9906-7dc0f8cdc25e",
-      // "d820f693-bbb5-44ae-9d60-f9e21344f52b",
-      // "eadf6782-70e8-405f-924f-e86d1330a937",
-      // "5f561d7a-8808-4d1f-bc13-9be768323034",
-      // "cfb63d8f-851e-4e8f-857f-d92cfcbfab94",
-      // "80af74cd-1cc8-4287-a045-86164607636c",
-      // "b09e0b5e-f137-4f37-9173-7c02071a53c3",
-      // GeeBaby
-      "535657fd-365e-4e99-a4eb-6054f34f6a0a",
-      "4e7e6882-eff6-49f8-8cde-08beffe39b3e",
-      "db6fb7dd-c7ba-4c11-97ce-37530b374bd0",
-      "8c162aa7-5a95-454f-b7ee-8c870eb49919",
-      "6ec75923-5c09-412f-b762-8d1b84469428",
-      "0909df82-c2b2-4ccc-9c10-15b60ba6052d",
-      "ceaa7727-e0e7-4f64-9bad-41d8cd9192f1",
-      "7d2578ee-d448-4b96-a528-10bb6a485f6e",
-      "87ec7da0-4d88-4692-8fd8-24378705b0fd",
+      // Temzzz
+      // "a695553b-3bfa-410f-af92-7e33c8fc63b8",
+      // "8770cdf3-f169-403e-82c2-83348404596c",
+      // Muhdbel
+      // "f5f13320-3c17-4ac2-926a-7533efee7c9f",
+      // Mehhnn
+      // "1eda5ba4-25f7-454b-bbc4-2883f9b644ad",
+      // "9ca1c302-6317-4ca9-9dce-4db2d44e9d2a",
+      // 
+      "d6850e00-29a7-4499-9cab-01e73f72235c",
     ],
   },
 ];

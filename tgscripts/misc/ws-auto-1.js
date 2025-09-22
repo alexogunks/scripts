@@ -8,10 +8,10 @@ const origin = "https://app.pett.ai";
 // Name & JWT (replace as needed)
 const pettName = `discarded_${Math.floor(Math.random() * 999999)}_t1`;
 const jwt =
-  "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZxNWl5djgwMGZ2bDEwY3RpbnNjbGhhIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgzMDkxNDIsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21kMTUxdzhtMDQwM2xlMG02NDV1c3JrcSIsImV4cCI6MTc1ODMxMjc0Mn0.r-QhYCB0kuTAaXbeLZLs2--Ct96TAasQ1hWodjZHCIAbDwcnaeVsjDfG-K_Q-po_ol5tMTzqMMXJt7Jj7K5fzg"
+  "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZqdGhvczIwMDAzbDUwYm53OWxmdnMyIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTg0MjI4MTksImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lMTF6bG16MDBrdmw1MGJjeXM2b3psaiIsImV4cCI6MTc1ODQyNjQxOX0.5Ksy3xLXFc1ODbBcexx25EBekMcMEG1AW2JL5nWuH88mYGM5sysGWflZNz6DpoFJMUdaJtaUCIU_gffa7sGhKQ"
 
 // Start mode
-let type = "food"; // "register" | "withdraw" | "food" | "atm" | "dice" | "jump" | "door"
+let type = "jump"; // "register" | "withdraw" | "food" | "atm" | "dice" | "jump" | "door"
 const useAtm = false;
 
 /** ====== TUNABLE CONNECT LIMITS ====== */
@@ -30,7 +30,7 @@ const DELAY_AFTER_AUTH_MS = 2000;
 
 // Level-based switching
 let currentLevel = 0;
-let levelAim = 26;
+let levelAim = 50;
 
 // Token balance (populated from server messages)
 let tokenBalance = 0;
@@ -51,11 +51,22 @@ let atmInterval = null;
 
 /** ====== WITHDRAWALS POOL ====== */
 const withdrawalIds = [
-//   "7a9f5230-4264-4971-951c-90cc40a0efe2",
-  "f5f13320-3c17-4ac2-926a-7533efee7c9f"
+"3ab03888-2a67-48fe-9dfa-918de5ab40ba",
+"3ab03888-2a67-48fe-9dfa-918de5ab40ba",
+"3ab03888-2a67-48fe-9dfa-918de5ab40ba"
 ];
-const pickWithdrawalId = () =>
-  withdrawalIds[Math.floor(Math.random() * withdrawalIds.length)];
+
+const shuffled = [...withdrawalIds].sort(() => Math.random() - 0.5);
+
+let index = 0;
+const pickWithdrawalId = () => {
+  if (index < shuffled.length) {
+    return shuffled[index++];  // next unique ID
+  } else {
+    return null;               // no IDs left
+  }
+};
+
 
 /** ====== HELPERS ====== */
 const uniqueNonce = () => uuidv4();
@@ -100,6 +111,12 @@ const makeDoorString = () => JSON.stringify({
   nonce: uniqueNonce(),
 });
 
+// const makeBuyString = () => JSON.stringify({
+//   type: "CONSUMABLES_BUY",
+//   data: { params: { foodId: "ENERGIZER", amount: 1 /*+ Math.random() * 0.01 */} },
+//   nonce: uniqueNonce(),
+// });
+
 const makeBuyString = () => JSON.stringify({
   type: "CONSUMABLES_BUY",
   data: { params: { foodId: "ENERGIZER", amount: 1 /*+ Math.random() * 0.01 */} },
@@ -139,8 +156,8 @@ const CONFIGS = {
     REST_BETWEEN_WAVES_MS: 30000,
   },
   withdraw: {
-    TOTAL_SOCKETS: 10,
-    REQUESTS_PER_SOCKET: 1,
+    TOTAL_SOCKETS: 1,
+    REQUESTS_PER_SOCKET: 5,
     BLAST_DURATION_MS: 40,
     REST_BETWEEN_WAVES_MS: 1000,
   },
@@ -171,7 +188,7 @@ const CONFIGS = {
   },
   jump: {
     TOTAL_SOCKETS: 10,
-    REQUESTS_PER_SOCKET: 10,
+    REQUESTS_PER_SOCKET: 5,
     BLAST_DURATION_MS: 40,
     REST_BETWEEN_WAVES_MS: 500,
   },
@@ -196,7 +213,12 @@ async function sendActionForSocket(sock) {
       sock.ws.send(makeRegisterString());
       break;
     case "withdraw":
-      sock.ws.send(makeWithdrawString(sock.withdrawalId ?? (sock.withdrawalId = pickWithdrawalId())));
+      const nextId = pickWithdrawalId();
+      if (nextId) {
+        sock.ws.send(makeWithdrawString(sock.withdrawalId ?? (sock.withdrawalId = nextId)));
+      } else {
+        console.log("🚫 No withdrawal IDs left to use");
+      }
       break;
     case "food":
       sock.ws.send(makeBuyString());
@@ -325,8 +347,15 @@ function onMessageFactory(sock) {
 
     const lower = msg?.error?.toLowerCase?.();
     if (lower && lower !== 'too many requests. please wait to try again.') {
-      console.log(JSON.stringify(msg.error));
+      console.log(msg.error);
     }
+
+    const data = msg?.data;
+    if (data) {
+      console.log(msg)
+    }
+
+    // console.log(msg);
 
     // Level tracking
     if (msg?.pet?.PetStats?.level != null) {

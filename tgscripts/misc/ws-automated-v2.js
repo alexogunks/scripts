@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const ENDPOINT = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.app/";
 const ORIGIN = "https://app.pett.ai";
-const JWT = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZxNWl5djgwMGZ2bDEwY3RpbnNjbGhhIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgzMDkxNDIsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21kMTUxdzhtMDQwM2xlMG02NDV1c3JrcSIsImV4cCI6MTc1ODMxMjc0Mn0.r-QhYCB0kuTAaXbeLZLs2--Ct96TAasQ1hWodjZHCIAbDwcnaeVsjDfG-K_Q-po_ol5tMTzqMMXJt7Jj7K5fzg"
+const JWT = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZxNWl5djgwMGZ2bDEwY3RpbnNjbGhhIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgzMTMyOTksImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21kMTUxdzhtMDQwM2xlMG02NDV1c3JrcSIsImV4cCI6MTc1ODMxNjg5OX0.kTECSrH68_f-cUr9KtLCVI1EQUS-1c2BTeOolkQuJ8JqrO-FQOOYMDN7nrTVsRCsmGMyRgaNRcnEAhKRXkv38A"
 
 const INTER_MESSAGE_DELAY_MS = 100;
 const HEARTBEAT_PING_MS = 30000;
@@ -51,7 +51,7 @@ class RobustSocket {
 
   async _connect() {
     if (this.stopped) return;
-    const headers = { Origin: ORIGIN, "User-Agent": "node/ws" };
+    const headers = { Origin: ORIGIN, "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" };
 
     console.log(`[main] connecting...`);
     this.ws = new WebSocket(ENDPOINT, { headers, perMessageDeflate: false });
