@@ -72,15 +72,22 @@ const makeDoorString = () =>
     type: "PLAY_DOORS",
     data: {},
     nonce: uniqueNonce(),
-  });
+});
+
 
 // const makeBuyString = () =>
 //   JSON.stringify({
 //     type: "CONSUMABLES_BUY",
-//   // data: { params: { foodId: "ENERGIZER", amount: 1 + Math.random() * 0.01 } },
-//   data: { params: { foodId: "ENERGIZER", amount: 1 } },
+//   data: { params: { foodId: "ENERGIZER", amount: 2 } },
 //     nonce: uniqueNonce(),
 //   });
+
+const makeBuyString = () => {
+  return JSON.stringify({
+    "type": "SHOWER",
+    "data": {},
+    "nonce": uniqueNonce()
+})}
 
 // const makeBuyString = () => {
 //   return JSON.stringify({
@@ -94,24 +101,6 @@ const makeDoorString = () =>
 // })
 // }
 
-const makeBuyString = () => {
-  return JSON.stringify({
-    "type": "SHOWER",
-    "data": {},
-    "nonce": uniqueNonce()
-})}
-
-// const makeBuyString = () => {
-//   return JSON.stringify({
-//     "type": "STAKING_CREATE",
-//     "data": {
-//         "params": {
-//             "type": "STAKING_7D",
-//             "amount": "2000000000000000000000"
-//         }
-//     },
-//     "nonce": uniqueNonce()
-// })}
 
 // const makeBuyString = () => {
 //   return JSON.stringify({
