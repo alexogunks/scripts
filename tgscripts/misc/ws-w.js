@@ -2,9 +2,11 @@ import fs from "fs";
 import WebSocket from "ws";
 import { v4 as uuidv4 } from "uuid";
 
-const endpoint = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.app/";
+const endpoint = "wss://ws.pett.ai/";
 const origin = "https://app.pett.ai";
-const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZoY2dhdXkwMDVoanUwYXkwMnc4YmV5IiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTg0OTYyMjAsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lbnNmaGFlMDA2ZGw5MGNrdjU2cmtyYSIsImV4cCI6MTc1ODQ5OTgyMH0.wRl_gAd434IQ0EtmT8eHS6Se5Rpp73yXo3WHat10fH7lCWImarD6NGrw81q6ZA5ZPIL_ulHpOXwQCVIq4sm1AQ"
+const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWgyOXZoazgwMHg4bDcwY3N3N29iMjRsIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NjIyODE4NzQsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21kMTUxdzhtMDQwM2xlMG02NDV1c3JrcSIsImV4cCI6MTc2MjMwMzQ3NH0.Qw5DcYaR2-x8camNtGOYIm4glzlmdw0_W7Wld1lopZiP-VqUHxnvc3b6VIlvij7nKF5Z4m7G0QKPGfzK-6RPSw"
+
+const mode = 'withdraw';
 
 /** ====== Load IDs from file ====== */
 const withdrawalIds = fs.readFileSync("withdrawalId.txt", "utf-8")
@@ -27,7 +29,7 @@ function makeAuthString() {
 
 function makeWithdrawString(withdrawalId) {
   return JSON.stringify({
-    type: "WITHDRAWAL_USE",
+    type: mode === 'jump' ? 'WITHDRAWAL_JUMP' : 'WITHDRAWAL_USE',
     data: { params: { withdrawalId } },
     nonce: uniqueNonce(),
   });
@@ -64,7 +66,8 @@ async function runWithdrawals() {
   ws.on("message", (m) => {
     let msg;
     try { msg = JSON.parse(m.toString()); } catch { return; }
-    console.log(msg);
+    // console.log(msg);
+    if (msg.type === "error") console.error('Error: ', msg)
     if (msg.type === "data") {
       console.log(`📩 Received data for ${withdrawalId}, moving to next...`);
       clearInterval(spamInterval);

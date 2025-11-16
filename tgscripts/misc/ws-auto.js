@@ -1,13 +1,14 @@
+import fs from "fs";
 import WebSocket from "ws";
 import { v4 as uuidv4 } from "uuid";
 
 /** ====== ENV / CONSTANTS ====== */
-const endpoint = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.app/";
+const endpoint = "wss://ws.pett.ai/";
 const origin = "https://app.pett.ai";
 // const pettName = `ao_nb_${Math.floor(Math.random() * 999)}_rn_${Math.floor(Math.random() * 999)}`;
 const pettName = `discarded_${Math.floor(Math.random() * 999999)}_t1`;
 // const pettName = `t.a_banker_${Math.floor(Math.random() * 999)}`;
-const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZxNWl5djgwMGZ2bDEwY3RpbnNjbGhhIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTgzMDkxNDIsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21kMTUxdzhtMDQwM2xlMG02NDV1c3JrcSIsImV4cCI6MTc1ODMxMjc0Mn0.r-QhYCB0kuTAaXbeLZLs2--Ct96TAasQ1hWodjZHCIAbDwcnaeVsjDfG-K_Q-po_ol5tMTzqMMXJt7Jj7K5fzg"
+const jwt = fs.readFileSync("jwt.txt", "utf-8").split("\n")[0].trim();
 
 /** start type */
 let type = "food"; // "register" | "withdraw" | "food" | "atm" | "dice" | "jump" | "door"
@@ -73,20 +74,66 @@ const makeDoorString = () =>
     nonce: uniqueNonce(),
   });
 
-const makeBuyString = () =>
-  JSON.stringify({
-    type: "CONSUMABLES_BUY",
-  // data: { params: { foodId: "ENERGIZER", amount: 1 + Math.random() * 0.01 } },
-  data: { params: { foodId: "ENERGIZER", amount: 1 } },
-    nonce: uniqueNonce(),
-  });
-
 // const makeBuyString = () =>
 //   JSON.stringify({
 //     type: "CONSUMABLES_BUY",
-//     data: { params: { foodId: "POTION", amount: 1 } },
+//   // data: { params: { foodId: "ENERGIZER", amount: 1 + Math.random() * 0.01 } },
+//   data: { params: { foodId: "ENERGIZER", amount: 1 } },
 //     nonce: uniqueNonce(),
 //   });
+
+// const makeBuyString = () => {
+//   return JSON.stringify({
+//     "type": "STAKING_CLAIM",
+//     "data": {
+//         "params": {
+//             "stakeId": "b8f4c941-1a7c-4453-8548-d46116f36807"
+//         }
+//     },
+//     "nonce": uniqueNonce(),
+// })
+// }
+
+const makeBuyString = () => {
+  return JSON.stringify({
+    "type": "SHOWER",
+    "data": {},
+    "nonce": uniqueNonce()
+})}
+
+// const makeBuyString = () => {
+//   return JSON.stringify({
+//     "type": "STAKING_CREATE",
+//     "data": {
+//         "params": {
+//             "type": "STAKING_7D",
+//             "amount": "2000000000000000000000"
+//         }
+//     },
+//     "nonce": uniqueNonce()
+// })}
+
+// const makeBuyString = () => {
+//   return JSON.stringify({
+//     "type": "PLAY_DOORS",
+//     "data": {},
+//     "nonce": uniqueNonce()
+// })}
+
+// const makeBuyString = () => {
+//   return JSON.stringify({
+//     "type": "PLAY_DICE",
+//     "data": {
+//         "params": {
+//             "betAmount": 3000,
+//             "selectedBet": {
+//                 "type": "odd"
+//             }
+//         }
+//     },
+//     "nonce": uniqueNonce()
+// })
+// }
 
 const makeAtmString = () => {
   let amountToSend = Number(Math.floor(tokenBalance - Number(tokenBalance * 10 / 100)));
@@ -138,10 +185,10 @@ const CONFIGS = {
     REST_BETWEEN_WAVES_MS: 1000,
   },
   food: {
-    TOTAL_SOCKETS: rand1to10(),
-    REQUESTS_PER_SOCKET: 5,
-    BLAST_DURATION_MS: 40,
-    REST_BETWEEN_WAVES_MS: 1000,
+    TOTAL_SOCKETS: 17,
+    REQUESTS_PER_SOCKET: 3,
+    BLAST_DURATION_MS: 3,
+    REST_BETWEEN_WAVES_MS: 3,
   },
   atm: {
     TOTAL_SOCKETS: 3,
@@ -197,6 +244,9 @@ function sendActionForSocket(sock) {
   if (NEEDS_AUTH_FIRST.has(type) && !sock.didAuth) {
     sock.ws.send(makeAuthString());
     sock.didAuth = true;
+    setTimeout(() => {
+      'Process still ongoing'
+    }, 1000)
   }
 
   // Then send the action
@@ -237,6 +287,7 @@ function blastWave() {
     console.log("⚠ No live sockets remain, stopping waves");
     sendingStarted = false;
     blasting = false;
+    process.exit(1);
     return;
   }
 
@@ -371,6 +422,10 @@ function connectSocket(socketId) {
       return;
     }
 
+    console.log(msg);
+    // msg?.type === 'data' && console.log(msg);
+    return;
+
     // debug
     const lower = msg?.error?.toLowerCase()
     if (lower !== 'too many requests. please wait to try again.') {
@@ -419,6 +474,7 @@ function connectSocket(socketId) {
 
   ws.on("error", (err) => {
     console.error(`❌ Socket ${socketId} error:`, err?.message || err);
+    // console.error(`❌ Socket ${socketId} error:`, err);
   });
 }
 

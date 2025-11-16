@@ -1,0 +1,11 @@
+{
+    "name": "misc",
+    "type": "module",
+    "dependencies": {},
+    "version": "1.0.0",
+    "description": "",
+    "main": "tester.js",
+    "scripts": {
+      "ball": "node ws-ball.js && node ws-auto.js"
+    }
+}

