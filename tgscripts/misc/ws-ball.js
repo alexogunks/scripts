@@ -34,6 +34,7 @@ function buildSpamMessage() {
 }}
 
 let msgSent = 0;
+let msgRec = 0;
 let i = 0;
 
 function sendBurst() {
@@ -55,7 +56,7 @@ function sendBurst() {
         msgSent += 1
         i++
         console.log(`Sent message ${i}`)
-        if (msgSent > 4 || i > 4) process.exit();
+        if ((msgSent > 4 || i > 4) && msgRec >= 3) process.exit();
       }, 1000)
     }
     if (msgSent >= 1) sock.close()
@@ -73,7 +74,8 @@ function connectSocket(index) {
     ws.on("message", data => {
       try {
         const msg = JSON.parse(data.toString());
-        console.log(msg);
+        // console.log(msg);
+        if (msg?.type === 'data') msgRec++
         if (msg.type === "auth_result" && msg.success) {
           console.log(`✅ Socket ${index + 1} authenticated`);
         //   console.log(`Tokens = ${Math.round(Number(msg?.pet?.PetTokens?.tokens) / Number(1000000000000000000))}`);
@@ -106,7 +108,7 @@ async function main() {
   console.log(`🎉 All ${readyCount} sockets authenticated`);
   sendBurst();
   console.log(`🎉 Bursts sent`);
-  if (msgSent >= 3 || i >= 3) process.exit();
+  if ((msgSent >= 3 || i >= 3) && msgRec >= 3) process.exit();
 //   return;
 }
 
