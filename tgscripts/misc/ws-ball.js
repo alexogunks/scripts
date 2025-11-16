@@ -8,7 +8,7 @@ const origin = "https://app.pett.ai";
 const jwt = fs.readFileSync("jwt.txt", "utf-8").split("\n")[0].trim();
 
 const connections = 1;
-const messagesPerSocket = 3;
+const messagesPerSocket = 5;
 
 let sockets = [];
 let readyCount = 0;
@@ -28,7 +28,7 @@ function buildAuthMessage() {
 
 function buildSpamMessage() {
   return {
-    type: "THWOW_BALL",
+    type: "THWOWBALL",
     data: {},
     nonce: uuidv4()
   };
@@ -52,7 +52,7 @@ function sendBurst() {
       sock.send(msg);
       msgSent++
     }
-    if (msgSent > 0) sock.close()
+    if (msgSent >= 1) sock.close()
   });
 }
 
