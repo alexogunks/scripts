@@ -422,7 +422,7 @@ function connectSocket(socketId) {
       return;
     }
 
-    console.log(msg);
+    (msg?.type === 'data' || msg?.type === 'error') && console.log(msg);
     // msg?.type === 'data' && console.log(msg);
     return;
 

@@ -28,13 +28,13 @@ function buildAuthMessage() {
 
 function buildSpamMessage() {
   return {
-    type: "THWOWBALL",
+    type: "THROWBALL",
     data: {},
     nonce: uuidv4()
-  };
-}
+}}
 
 let msgSent = 0;
+let i = 0;
 
 function sendBurst() {
   const total = connections * messagesPerSocket;
@@ -47,10 +47,16 @@ function sendBurst() {
     }))
   );
 
+
   payloads.forEach(({ sock, msg }) => {
     if (sock.readyState === WebSocket.OPEN) {
-      sock.send(msg);
-      msgSent++
+      setInterval(() => {
+        sock.send(msg);
+        msgSent += 1
+        i++
+        console.log(`Sent message ${i}`)
+        if (msgSent > 4 || i > 4) process.exit();
+      }, 1000)
     }
     if (msgSent >= 1) sock.close()
   });
@@ -100,7 +106,7 @@ async function main() {
   console.log(`🎉 All ${readyCount} sockets authenticated`);
   sendBurst();
   console.log(`🎉 Bursts sent`);
-  process.exit()
+  if (msgSent >= 3 || i >= 3) process.exit();
 //   return;
 }
 
