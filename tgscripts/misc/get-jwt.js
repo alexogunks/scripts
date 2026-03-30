@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import readline from "readline";
 
 const APP_ID = "cm7gev5s600vbk2lsj6e1e9g7";   // your Privy app ID
-const EMAIL  = "ymykfa@mailto.plus";             // replace with your test email
+const EMAIL  = "aoloots@gmail.com";             // replace with your test email
 
 // simple console prompt
 function ask(q) {

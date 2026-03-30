@@ -1,0 +1,7 @@
+{
+  "name": "onchain-scripts",
+  "type": "module",
+  "dependencies": {
+    "ethers": "^6.16.0"
+  }
+}

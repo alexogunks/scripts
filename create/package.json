@@ -1,0 +1,19 @@
+{
+  "name": "create",
+  "type": "module",
+  "dependencies": {
+    "cookie": "^1.0.2",
+    "ethers": "^6.16.0",
+    "express": "^5.1.0",
+    "form-data": "^4.0.5",
+    "https-proxy-agent": "^7.0.6",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.1.10",
+    "puppeteer": "^24.39.1",
+    "socks-proxy-agent": "^8.0.5",
+    "uuid": "^11.1.0",
+    "ws": "^8.18.3"
+  },
+  "keywords": [],
+  "author": "Alex Ogunks"
+}
