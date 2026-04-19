@@ -15,8 +15,8 @@ let running = true;
 const endpoint = "https://trxvault.site/register.php?ref=d11da5b0";
 
 
-const THREADS = 25;
-const BATCHES = 2;
+const THREADS = 55;
+const BATCHES = 5;
 
 const firstNames = [
   "James","Mary","John","Patricia","Robert","Jennifer","Michael","Linda","William","Elizabeth",
@@ -78,10 +78,13 @@ export async function send(i) {
     return un;
   }
 
-  const generateEmail = () => {
+  const generateEmail = (type) => {
     const chars = 'abcdefghijklmnopqrstuvwxyz';
     const ran = () => chars[Math.floor(Math.random() * chars.length)];
-    const email = `${ran()}ao${ran()}${ran()}${ran()}${ran()}${Math.floor(randomNumber() / 1000)}%40gmail.com`;
+    let email;
+    if (type === 'random' || !type)
+      email = `${ran()}ao${ran()}${ran()}${ran()}${ran()}${Math.floor(randomNumber() / 1000)}%40gmail.com`;
+    else email = `${generateUsername()}%40gmail.com`;
     return email;
   }
 
@@ -138,26 +141,40 @@ export async function send(i) {
 
     let cookie;
 
-    const ref_code = 'CE7BABE2';
+    const ref_code = '1ECF3A';
 
-    const r = await fetch("https://smshikasub.com.ng/data/purchase", {
+    // const ra = await fetch("https://2026farmpepe.com/register", {
+    //   "headers": {
+    //     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    //     "accept-language": "en-US,en;q=0.9",
+    //     "cache-control": "max-age=0",
+    //     "content-type": "application/x-www-form-urlencoded",
+    //     "priority": "u=0, i",
+    //     "sec-ch-ua": "\"Microsoft Edge\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"",
+    //     "sec-ch-ua-mobile": "?0",
+    //     "sec-ch-ua-platform": "\"Windows\"",
+    //     "sec-fetch-dest": "document",
+    //     "sec-fetch-mode": "navigate",
+    //     "sec-fetch-site": "same-origin",
+    //     "sec-fetch-user": "?1",
+    //     "upgrade-insecure-requests": "1",
+    //     "Referer": "https://2026farmpepe.com/auth?error=login_failed"
+    //   },
+    //   "body": `email=${generateEmail('normal')}&password=Creeper123#&confirm_password=Creeper123#&security_pin=Creeper123#&referral_code=1ECF3A`,
+    //   "method": "POST"
+    // });
+
+    const r = await fetch("https://2026farmpepe.com/exchange", {
       "headers": {
-        "accept": "*/*",
-        "accept-language": "en-US,en;q=0.9",
-        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "priority": "u=1, i",
+        "content-type": "application/x-www-form-urlencoded",
         "sec-ch-ua": "\"Microsoft Edge\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"",
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": "\"Windows\"",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-        "x-csrf-token": "lDRSFscKnsWDvwTnouljC4UaSWX9PS6xkF1JA3F5",
-        "x-requested-with": "XMLHttpRequest",
-        "cookie": "XSRF-TOKEN=eyJpdiI6InF6R3dZK2t0cVlxeFhMSnNHNTR6RlE9PSIsInZhbHVlIjoiSXdJSlBGOXBIemdNemNmOURIU1pIMnhXWGNoOEw1WlZJYlhaZzJuOUNuRk1kYXREd3B4aFNQL3NJaTA0MnpzRHFTcVVEcWZaaWpzOTZZcDZGODNmaU8wbldsVDIyYzdEOWdESUVDdWtucjdFdTRRTTVmZkdicStzOWFNbnB0ejgiLCJtYWMiOiI5MzViOTc5M2Y3OGI1ZmVlMjhjYjZhZmIzODQ0YWUxZTU1MWM4YjdhOGUyYzAxMTc0OWFlN2NhNWVhNWYyMTk0IiwidGFnIjoiIn0%3D; hk-vtu-plug-session=eyJpdiI6Ikp1U3JHUGQ5NVUrU0hxNEw1NTZKT0E9PSIsInZhbHVlIjoiT2M0cC9HeUVZWXFRMnd4TGNqNzFlUlBhcEJZdWVBZ1k4WmxNZWM2anl5UG5teEl2WElUbnFldlZwN2kxMEZTTDFuN2pLTkdVMzl4RGk2N2UzMkxFa05MMldIWFFobUVGM0xCOGpDN1lYaU44V3I0cFRHWEJ6bHVmYVF6OFFXcEsiLCJtYWMiOiI0NGRhYTQxNWVjZmY2MDcyYmM3MDIxNjhkZDJjYjZiOTYxZjQ5YTQyYzczY2YyZTFlN2ZkYzE5MDM5MDBhNTcyIiwidGFnIjoiIn0%3D",
-        "Referer": "https://smshikasub.com.ng/data"
+        "upgrade-insecure-requests": "1",
+        "cookie": "PHPSESSID=7qimakhs526poji8oe58hcd6l9",
+        "Referer": "https://2026farmpepe.com/exchange"
       },
-      "body": "_token=lDRSFscKnsWDvwTnouljC4UaSWX9PS6xkF1JA3F5&network_id=1&category_id=1&plan_id=30&phone_number=07025958800&transaction_pin=1902",
+      "body": "swap_amount=250000.00",
       "method": "POST"
     });
 

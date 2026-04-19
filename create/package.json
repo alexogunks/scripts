@@ -1,6 +1,13 @@
 {
   "name": "create",
   "type": "module",
+  "scripts": {
+    "termux_install": "npm install puppeteer-core",
+    "browser": "node browser.js && node browser.js && node browser.js && node browser.js && node browser.js && node browser.js && node browser.js && node browser.js && node browser.js && node browser.js && node browser.js && node browser.js && node browser.js && node browser.js && node browser.js && node browser.js",
+    "browser_daemon": "npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser && npm run browser",
+    "rtermux": "node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js && node rtermux.js",
+    "termux_daemon": "npm run rtermux && npm run rtermux && npm run rtermux && npm run rtermux && npm run rtermux && npm run rtermux && npm run rtermux && npm run rtermux && npm run rtermux && npm run rtermux && npm run rtermux && npm run rtermux && npm run rtermux"
+  },
   "dependencies": {
     "cheerio": "^1.2.0",
     "cookie": "^1.0.2",
